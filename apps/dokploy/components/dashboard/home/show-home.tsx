@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 type DeploymentStatus = "idle" | "running" | "done" | "error";
 
@@ -110,6 +111,7 @@ function StatusListCard({
 }
 
 export const ShowHome = () => {
+	const { t, locale } = useTranslation();
 	const { data: auth } = api.user.get.useQuery();
 	const { data: homeStats } = api.project.homeStats.useQuery();
 	const { data: permissions } = api.user.getPermissions.useQuery();
@@ -183,7 +185,7 @@ export const ShowHome = () => {
 				<div className="rounded-xl bg-background shadow-md p-6 flex flex-col gap-6 h-full">
 					<div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
 						<h1 className="text-3xl font-semibold tracking-tight">
-							{firstName ? `Welcome back, ${firstName}` : "Welcome back"}
+							{firstName ? (locale === "zh" ? `欢迎回来，${firstName}` : `Welcome back, ${firstName}`) : t("dashboard.welcome")}
 						</h1>
 						<Button asChild variant="secondary" className="w-fit">
 							<Link href="/dashboard/projects">
@@ -195,37 +197,37 @@ export const ShowHome = () => {
 
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 						<StatCard
-							label="Projects"
+							label={t("projects.title")}
 							value={String(totals.projects)}
 							delta={`${totals.environments} ${totals.environments === 1 ? "environment" : "environments"}`}
 							href="/dashboard/projects"
 						/>
 						<StatCard
-							label="Services"
+							label={t("services.title")}
 							value={String(totals.services)}
 							delta={`${totals.applications} apps · ${totals.compose} compose · ${totals.databases} db`}
 						/>
 						<StatCard
-							label="Deploys / 7d"
+							label={locale === "zh" ? "近 7 天部署" : "Deploys / 7d"}
 							value={deployStats.value}
 							delta={deployStats.delta}
 						/>
 						<StatusListCard
-							label="Status"
+							label={t("common.status")}
 							items={[
 								{
 									dotClass: "bg-emerald-500",
-									label: "running",
+									label: t("common.active"),
 									count: statusBreakdown.running,
 								},
 								{
 									dotClass: "bg-red-500",
-									label: "errored",
+									label: t("common.error"),
 									count: statusBreakdown.error,
 								},
 								{
 									dotClass: "bg-muted-foreground/40",
-									label: "idle",
+									label: t("common.inactive"),
 									count: statusBreakdown.idle,
 								},
 							]}
@@ -236,7 +238,7 @@ export const ShowHome = () => {
 						<div className="flex items-center justify-between px-5 py-4 border-b">
 							<div className="flex items-center gap-2">
 								<Rocket className="size-4 text-muted-foreground" />
-								<h2 className="text-sm font-semibold">Recent deployments</h2>
+								<h2 className="text-sm font-semibold">{locale === "zh" ? "最近部署动态" : "Recent deployments"}</h2>
 							</div>
 							{canReadDeployments && (
 								<Link
@@ -255,7 +257,7 @@ export const ShowHome = () => {
 						) : recentDeployments.length === 0 ? (
 							<div className="min-h-[400px] flex flex-col items-center justify-center gap-3 text-center text-sm text-muted-foreground p-10">
 								<Rocket className="size-8 opacity-40" />
-								<span>No deployments yet.</span>
+								<span>{locale === "zh" ? "暂无部署记录。" : "No deployments yet."}</span>
 							</div>
 						) : (
 							<ul className="divide-y">

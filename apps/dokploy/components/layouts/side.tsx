@@ -110,6 +110,43 @@ import { Button } from "../ui/button";
 import { TimeBadge } from "../ui/time-badge";
 import { UpdateServerButton } from "./update-server";
 import { UserNav } from "./user-nav";
+import { useTranslation } from "@/lib/i18n";
+import { LanguageToggle } from "../ui/languageToggle";
+
+export const getNavTitle = (title: string, t: (k: string) => string) => {
+	switch (title) {
+		case "Home": return t("nav.home");
+		case "Projects": return t("nav.projects");
+		case "Overview": return t("nav.overview");
+		case "Monitoring": return t("nav.monitoring");
+		case "Schedules": return t("nav.schedules");
+		case "Traefik File System": return t("nav.traefik");
+		case "Docker": return t("nav.docker");
+		case "Requests": return t("nav.requests");
+		case "Web Server": return t("settings.server");
+		case "Profile": return t("nav.profile");
+		case "Sessions": return "会话管理";
+		case "Remote Servers": return "远程服务器";
+		case "Deployments": return t("nav.deployments");
+		case "Users": return t("settings.users");
+		case "Audit Logs": return "审计日志";
+		case "SSH Keys": return "SSH 密钥";
+		case "AI": return "AI 助手";
+		case "Tags": return "标签管理";
+		case "Git": return t("settings.gitProviders");
+		case "Registry": return "镜像仓库";
+		case "Cluster": return t("settings.cluster");
+		case "Certificates": return t("settings.certificates");
+		case "Destinations": return "S3 备份目标";
+		case "Notifications": return t("settings.notifications");
+		case "Security": return "安全设置";
+		case "Appearance": return t("settings.appearance");
+		case "Whitelabeling": return "白标定制";
+		case "Documentation": return t("nav.docs");
+		case "Support": return t("nav.help");
+		default: return title;
+	}
+};
 
 // The types of the queries we are going to use
 type AuthQueryOutput = inferRouterOutputs<AppRouter>["user"]["get"];
@@ -1019,7 +1056,7 @@ export default function Page({ children }: Props) {
 				</SidebarHeader>
 				<SidebarContent>
 					<SidebarGroup>
-						<SidebarGroupLabel>Home</SidebarGroupLabel>
+						<SidebarGroupLabel>{t("nav.home")}</SidebarGroupLabel>
 						<SidebarMenu>
 							{filteredHome.map((item) => {
 								const isSingle = item.isSingle !== false;
@@ -1040,7 +1077,7 @@ export default function Page({ children }: Props) {
 											{isSingle ? (
 												<SidebarMenuButton
 													asChild
-													tooltip={item.title}
+													tooltip={getNavTitle(item.title, t)}
 													className={cn(isActive && "bg-border")}
 												>
 													<Link
@@ -1052,19 +1089,19 @@ export default function Page({ children }: Props) {
 																className={cn(isActive && "text-primary")}
 															/>
 														)}
-														<span>{item.title}</span>
+														<span>{getNavTitle(item.title, t)}</span>
 													</Link>
 												</SidebarMenuButton>
 											) : (
 												<>
 													<CollapsibleTrigger asChild>
 														<SidebarMenuButton
-															tooltip={item.title}
+															tooltip={getNavTitle(item.title, t)}
 															isActive={isActive}
 														>
 															{item.icon && <item.icon />}
 
-															<span>{item.title}</span>
+															<span>{getNavTitle(item.title, t)}</span>
 															{item.items?.length && (
 																<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
 															)}
@@ -1092,7 +1129,7 @@ export default function Page({ children }: Props) {
 																					/>
 																				</span>
 																			)}
-																			<span>{subItem.title}</span>
+																			<span>{getNavTitle(subItem.title, t)}</span>
 																		</Link>
 																	</SidebarMenuSubButton>
 																</SidebarMenuSubItem>
@@ -1108,7 +1145,7 @@ export default function Page({ children }: Props) {
 						</SidebarMenu>
 					</SidebarGroup>
 					<SidebarGroup>
-						<SidebarGroupLabel>Settings</SidebarGroupLabel>
+						<SidebarGroupLabel>{t("nav.settings")}</SidebarGroupLabel>
 						<SidebarMenu className="gap-1">
 							{filteredSettings.map((item) => {
 								const isSingle = item.isSingle !== false;
@@ -1129,7 +1166,7 @@ export default function Page({ children }: Props) {
 											{isSingle ? (
 												<SidebarMenuButton
 													asChild
-													tooltip={item.title}
+													tooltip={getNavTitle(item.title, t)}
 													className={cn(isActive && "bg-border")}
 												>
 													<Link
@@ -1141,19 +1178,19 @@ export default function Page({ children }: Props) {
 																className={cn(isActive && "text-primary")}
 															/>
 														)}
-														<span>{item.title}</span>
+														<span>{getNavTitle(item.title, t)}</span>
 													</Link>
 												</SidebarMenuButton>
 											) : (
 												<>
 													<CollapsibleTrigger asChild>
 														<SidebarMenuButton
-															tooltip={item.title}
+															tooltip={getNavTitle(item.title, t)}
 															isActive={isActive}
 														>
 															{item.icon && <item.icon />}
 
-															<span>{item.title}</span>
+															<span>{getNavTitle(item.title, t)}</span>
 															{item.items?.length && (
 																<ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
 															)}
@@ -1181,7 +1218,7 @@ export default function Page({ children }: Props) {
 																					/>
 																				</span>
 																			)}
-																			<span>{subItem.title}</span>
+																			<span>{getNavTitle(subItem.title, t)}</span>
 																		</Link>
 																	</SidebarMenuSubButton>
 																</SidebarMenuSubItem>
@@ -1197,7 +1234,7 @@ export default function Page({ children }: Props) {
 						</SidebarMenu>
 					</SidebarGroup>
 					<SidebarGroup className="group-data-[collapsible=icon]:hidden">
-						<SidebarGroupLabel>Extra</SidebarGroupLabel>
+						<SidebarGroupLabel>{t("nav.help")}</SidebarGroupLabel>
 						<SidebarMenu>
 							{help.map((item: ExternalLink) => (
 								<SidebarMenuItem key={item.name}>
@@ -1211,7 +1248,7 @@ export default function Page({ children }: Props) {
 											<span className="mr-2">
 												<item.icon className="h-4 w-4" />
 											</span>
-											<span>{item.name}</span>
+											<span>{getNavTitle(item.name, t)}</span>
 										</a>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
@@ -1259,14 +1296,17 @@ export default function Page({ children }: Props) {
 													href={activeItem?.url || "/"}
 													className="flex items-center gap-1.5"
 												>
-													{activeItem?.title}
+													{activeItem ? getNavTitle(activeItem.title, t) : ""}
 												</Link>
 											</BreadcrumbLink>
 										</BreadcrumbItem>
 									</BreadcrumbList>
 								</Breadcrumb>
 							</div>
-							{!isCloud && <TimeBadge />}
+							<div className="flex items-center gap-2">
+								<LanguageToggle variant="compact" />
+								{!isCloud && <TimeBadge />}
+							</div>
 						</div>
 					</header>
 				)}

@@ -10,6 +10,7 @@ import { SearchCommand } from "@/components/dashboard/search-command";
 import { Analytics } from "@/components/shared/analytics";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { I18nProvider } from "@/lib/i18n";
 import { api } from "@/utils/api";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -46,11 +47,13 @@ const MyApp = ({
 					disableTransitionOnChange
 					forcedTheme={Component.theme}
 				>
-					<NextTopLoader color="hsl(var(--sidebar-ring))" />
-					<Analytics />
-					<Toaster richColors />
-					<SearchCommand />
-					{getLayout(<Component {...pageProps} />)}
+					<I18nProvider>
+						<NextTopLoader color="hsl(var(--sidebar-ring))" />
+						<Analytics />
+						<Toaster richColors />
+						<SearchCommand />
+						{getLayout(<Component {...pageProps} />)}
+					</I18nProvider>
 				</ThemeProvider>
 			</TooltipProvider>
 		</>

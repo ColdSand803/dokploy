@@ -5,6 +5,7 @@ import { useWhitelabelingPublic } from "@/utils/hooks/use-whitelabeling";
 import { GithubIcon } from "../icons/data-tools-icons";
 import { Logo } from "../shared/logo";
 import { Button } from "../ui/button";
+import { LanguageToggle } from "../ui/languageToggle";
 
 interface Props {
 	children: React.ReactNode;
@@ -16,7 +17,7 @@ export const OnboardingLayout = ({ children, leftPanel }: Props) => {
 	const appName = whitelabeling?.appName || "Dokploy";
 	const appDescription =
 		whitelabeling?.appDescription ||
-		"\u201CThe Open Source alternative to Netlify, Vercel, Heroku.\u201D";
+		"“The Open Source alternative to Netlify, Vercel, Heroku.”";
 	const logoUrl =
 		whitelabeling?.loginLogoUrl || whitelabeling?.logoUrl || undefined;
 	const logoLightUrl =
@@ -51,9 +52,10 @@ export const OnboardingLayout = ({ children, leftPanel }: Props) => {
 				<div className="flex w-full flex-1 flex-col justify-center space-y-6 max-w-lg mx-auto py-8">
 					{children}
 				</div>
-				<div className="mx-auto flex w-full max-w-lg items-center justify-center gap-1 pb-6 text-muted-foreground sm:justify-end">
+				<div className="mx-auto flex w-full max-w-lg items-center justify-center gap-2 pb-6 text-muted-foreground sm:justify-end">
+					<LanguageToggle variant="compact" />
 					<Button variant="ghost" size="icon">
-						<Link href="https://github.com/dokploy/dokploy">
+						<Link href="https://github.com/ColdSand803/dokploy">
 							<GithubIcon />
 						</Link>
 					</Button>

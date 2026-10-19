@@ -11,8 +11,10 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/auth-client";
+import { useTranslation } from "@/lib/i18n";
 import { getFallbackAvatarInitials } from "@/lib/utils";
 import { api } from "@/utils/api";
+import { LanguageToggle } from "../ui/languageToggle";
 import { ModeToggle } from "../ui/modeToggle";
 import { SidebarMenuButton } from "../ui/sidebar";
 
@@ -20,11 +22,10 @@ const _AUTO_CHECK_UPDATES_INTERVAL_MINUTES = 7;
 
 export const UserNav = () => {
 	const router = useRouter();
+	const { t } = useTranslation();
 	const { data } = api.user.get.useQuery();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
-
-	// const { mutateAsync } = api.auth.logout.useMutation();
 
 	return (
 		<DropdownMenu>
@@ -46,7 +47,7 @@ export const UserNav = () => {
 						</AvatarFallback>
 					</Avatar>
 					<div className="grid flex-1 text-left text-sm leading-tight">
-						<span className="truncate font-semibold">Account</span>
+						<span className="truncate font-semibold">{t("nav.account")}</span>
 						<span className="truncate text-xs">{data?.user?.email}</span>
 					</div>
 					<ChevronsUpDown className="ml-auto size-4" />
@@ -60,12 +61,15 @@ export const UserNav = () => {
 			>
 				<div className="flex items-center justify-between px-2 py-1.5">
 					<DropdownMenuLabel className="flex flex-col">
-						My Account
+						{t("nav.account")}
 						<span className="text-xs font-normal text-muted-foreground">
 							{data?.user?.email}
 						</span>
 					</DropdownMenuLabel>
-					<ModeToggle />
+					<div className="flex items-center gap-1.5">
+						<LanguageToggle />
+						<ModeToggle />
+					</div>
 				</div>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
@@ -75,7 +79,7 @@ export const UserNav = () => {
 							router.push("/dashboard/settings/profile");
 						}}
 					>
-						Profile
+						{t("nav.profile")}
 					</DropdownMenuItem>
 					<DropdownMenuItem
 						className="cursor-pointer"
@@ -83,7 +87,7 @@ export const UserNav = () => {
 							router.push("/dashboard/home");
 						}}
 					>
-						Projects
+						{t("nav.projects")}
 					</DropdownMenuItem>
 					{!isCloud ? (
 						<>
@@ -93,7 +97,7 @@ export const UserNav = () => {
 									router.push("/dashboard/monitoring");
 								}}
 							>
-								Monitoring
+								{t("nav.monitoring")}
 							</DropdownMenuItem>
 							{permissions?.traefikFiles.read && (
 								<DropdownMenuItem
@@ -102,7 +106,7 @@ export const UserNav = () => {
 										router.push("/dashboard/traefik");
 									}}
 								>
-									Traefik
+									{t("nav.traefik")}
 								</DropdownMenuItem>
 							)}
 							{permissions?.docker.read && (
@@ -114,7 +118,7 @@ export const UserNav = () => {
 										});
 									}}
 								>
-									Docker
+									{t("nav.docker")}
 								</DropdownMenuItem>
 							)}
 						</>
@@ -148,12 +152,9 @@ export const UserNav = () => {
 						await authClient.signOut().then(() => {
 							router.push("/");
 						});
-						// await mutateAsync().then(() => {
-						// 	router.push("/");
-						// });
 					}}
 				>
-					Log out
+					{t("nav.logout")}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

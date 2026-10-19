@@ -2,6 +2,7 @@ import type { IUpdateData } from "@dokploy/server/index";
 import { Download } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import UpdateServer from "../dashboard/settings/web-server/update-server";
 import { Button } from "../ui/button";
 import {
@@ -14,6 +15,7 @@ import {
 const AUTO_CHECK_UPDATES_INTERVAL_MINUTES = 7;
 
 export const UpdateServerButton = () => {
+	const { t, locale } = useTranslation();
 	const [updateData, setUpdateData] = useState<IUpdateData>({
 		latestVersion: null,
 		updateAvailable: false,
@@ -108,7 +110,7 @@ export const UpdateServerButton = () => {
 						</TooltipTrigger>
 						{updateData && (
 							<TooltipContent side="right" sideOffset={10}>
-								<p>Update Available</p>
+								<p>{locale === "zh" ? "有新版本可用" : "Update Available"}</p>
 							</TooltipContent>
 						)}
 					</Tooltip>

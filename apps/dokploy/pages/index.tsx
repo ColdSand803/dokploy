@@ -50,6 +50,7 @@ import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { generateServerSideHelper } from "@/utils/create-server-helpers";
 import { useWhitelabelingPublic } from "@/utils/hooks/use-whitelabeling";
+import { useTranslation } from "@/lib/i18n";
 
 const LoginSchema = z.object({
 	email: z.string().email(),
@@ -67,6 +68,7 @@ interface Props {
 	enforceSSO: boolean;
 }
 export default function Home({ IS_CLOUD, enforceSSO }: Props) {
+	const { t, locale } = useTranslation();
 	const router = useRouter();
 	const { config: whitelabeling } = useWhitelabelingPublic();
 	const { data: showSignInWithSSO } = api.sso.showSignInWithSSO.useQuery();
@@ -251,7 +253,7 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 						name="email"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Email</FormLabel>
+								<FormLabel>{t("auth.email")}</FormLabel>
 								<FormControl>
 									<Input placeholder="john@example.com" {...field} />
 								</FormControl>
@@ -264,7 +266,7 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 						name="password"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Password</FormLabel>
+								<FormLabel>{t("auth.password")}</FormLabel>
 								<FormControl>
 									<Input
 										type="password"
@@ -277,7 +279,7 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 						)}
 					/>
 					<Button className="w-full" type="submit" isLoading={isLoginLoading}>
-						Login
+						{t("auth.signIn")}
 					</Button>
 				</form>
 			</Form>
@@ -289,7 +291,7 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 				isLoading={isPasskeyLoading}
 			>
 				<Fingerprint className="size-4" />
-				Sign in with Passkey
+				{locale === "zh" ? "使用通行密钥登录 (Passkey)" : "Sign in with Passkey"}
 			</Button>
 		</>
 	);
@@ -312,11 +314,11 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 								undefined
 							}
 						/>
-						Sign in
+						{t("auth.signIn")}
 					</div>
 				</h1>
 				<p className="text-sm text-muted-foreground">
-					Enter your email and password to sign in
+					{locale === "zh" ? "请输入您的邮箱和密码以进入控制台" : "Enter your email and password to sign in"}
 				</p>
 			</div>
 			{error && (
@@ -345,7 +347,7 @@ export default function Home({ IS_CLOUD, enforceSSO }: Props) {
 							autoComplete="on"
 						>
 							<div className="flex flex-col gap-2">
-								<Label htmlFor="totp-code">2FA Code</Label>
+								<Label htmlFor="totp-code">{t("auth.twoFactorCode")}</Label>
 								<InputOTP
 									id="totp-code"
 									name="totp"

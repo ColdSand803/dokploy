@@ -33,10 +33,29 @@ Dokploy includes multiple features to make your life easier.
 - **Multi Server**: Deploy and manage your applications remotely to external servers.
 - **Self-Hosted**: Self-host Dokploy on your VPS.
 
-## 🚀 Getting Started
+## 🚀 Getting Started / 快速上手
 
-To get started, run the following command on a VPS:
+### 🇨🇳 中文汉化与多语言一键安装 (Chinese / i18n One-Line Install)
 
+在你的 Linux VPS（Debian / Ubuntu / Rocky 等）上直接运行以下命令即可完成一键安装：
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/feat/i18n-support/install.sh | bash
+```
+
+> **提示**：安装脚本默认拉取 `ghcr.io/coldsand803/dokploy:latest` 容器镜像。你也可以通过环境变量指定自定义镜像：
+> ```bash
+> DOKPLOY_IMAGE="ghcr.io/coldsand803/dokploy" curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/feat/i18n-support/install.sh | bash
+> ```
+
+### 🌐 多语言特性 (i18n Highlights)
+- **支持实时中英文自由切换**：在登录页底栏、控制台全局侧边栏及个人头像菜单中，点击语言切换按钮（`中 / EN`）即可即时切换系统语言。
+- **配置持久化**：用户语言偏好自动保存在本地 Cookie / LocalStorage 中，自动记忆用户偏好，并自适应浏览器默认语言。
+- **轻量解耦**：基于类型安全的 i18n 字典，易于维护与跟进官方最新版本合并。
+
+---
+
+### 🇺🇸 Official Upstream Install
 Want to skip the installation process? [Try the Dokploy Cloud](https://app.dokploy.com).
 
 ```bash
