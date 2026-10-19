@@ -40,12 +40,12 @@ Dokploy includes multiple features to make your life easier.
 在你的 Linux VPS（Debian / Ubuntu / Rocky 等）上直接运行以下命令即可完成一键安装：
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/feat/i18n-support/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/pro/install.sh | bash
 ```
 
 > **提示**：安装脚本默认拉取 `ghcr.io/coldsand803/dokploy:latest` 容器镜像。你也可以通过环境变量指定自定义镜像：
 > ```bash
-> DOKPLOY_IMAGE="ghcr.io/coldsand803/dokploy" curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/feat/i18n-support/install.sh | bash
+> DOKPLOY_IMAGE="ghcr.io/coldsand803/dokploy" curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/pro/install.sh | bash
 > ```
 
 ### 🌐 多语言特性 (i18n Highlights)

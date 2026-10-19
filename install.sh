@@ -11,7 +11,7 @@ DOCKER_VERSION="28.5.0"
 DOKPLOY_IMAGE="${DOKPLOY_IMAGE:-ghcr.io/coldsand803/dokploy}"
 
 # Detect version from environment variable or default to latest
-# Usage with curl: curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/feat/i18n-support/install.sh | bash
+# Usage with curl: curl -sSL https://raw.githubusercontent.com/ColdSand803/dokploy/pro/install.sh | bash
 # Usage with custom image: DOKPLOY_IMAGE="my-repo/dokploy" curl -sSL ... | bash
 detect_version() {
     local version="${DOKPLOY_VERSION}"
