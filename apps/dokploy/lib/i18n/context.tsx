@@ -1,6 +1,7 @@
 "use client";
 
-import React, {
+import type React from "react";
+import {
 	createContext,
 	useCallback,
 	useContext,
@@ -41,7 +42,7 @@ function getInitialLocale(): Locale {
 		const cookies = document.cookie.split(";");
 		for (const cookie of cookies) {
 			const [name, value] = cookie.trim().split("=");
-			if (name === COOKIE_NAME) {
+			if (name === COOKIE_NAME && value) {
 				const decoded = decodeURIComponent(value) as Locale;
 				if (decoded === "zh" || decoded === "en") {
 					return decoded;
@@ -88,7 +89,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 	const t = useCallback(
 		(key: string, params?: Record<string, string | number>): string => {
 			const keys = key.split(".");
-			
+
 			// 1. Try current locale
 			let value: any = dictionaries[locale];
 			for (const k of keys) {
@@ -104,7 +105,11 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 			if (value === undefined && locale !== "en") {
 				let fallbackValue: any = dictionaries.en;
 				for (const k of keys) {
-					if (fallbackValue && typeof fallbackValue === "object" && k in fallbackValue) {
+					if (
+						fallbackValue &&
+						typeof fallbackValue === "object" &&
+						k in fallbackValue
+					) {
 						fallbackValue = fallbackValue[k];
 					} else {
 						fallbackValue = undefined;
@@ -144,9 +149,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({
 	);
 
 	return (
-		<I18nContext.Provider value={contextValue}>
-			{children}
-		</I18nContext.Provider>
+		<I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>
 	);
 };
 
