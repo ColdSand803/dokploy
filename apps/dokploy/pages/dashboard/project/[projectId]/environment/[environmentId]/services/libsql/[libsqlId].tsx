@@ -210,14 +210,26 @@ const Libsql = (
 														: "md:grid-cols-6",
 											)}
 										>
-											<TabsTrigger value="general">{t("database.tabs.general")}</TabsTrigger>
-											<TabsTrigger value="environment">{t("database.tabs.environment")}</TabsTrigger>
-											<TabsTrigger value="logs">{t("database.tabs.logs")}</TabsTrigger>
+											<TabsTrigger value="general">
+												{t("database.tabs.general")}
+											</TabsTrigger>
+											<TabsTrigger value="environment">
+												{t("database.tabs.environment")}
+											</TabsTrigger>
+											<TabsTrigger value="logs">
+												{t("database.tabs.logs")}
+											</TabsTrigger>
 											{((data?.serverId && isCloud) || !data?.server) && (
-												<TabsTrigger value="monitoring">{t("database.tabs.monitoring")}</TabsTrigger>
+												<TabsTrigger value="monitoring">
+													{t("database.tabs.monitoring")}
+												</TabsTrigger>
 											)}
-											<TabsTrigger value="backups">{t("database.tabs.backups")}</TabsTrigger>
-											<TabsTrigger value="advanced">{t("database.tabs.advanced")}</TabsTrigger>
+											<TabsTrigger value="backups">
+												{t("database.tabs.backups")}
+											</TabsTrigger>
+											<TabsTrigger value="advanced">
+												{t("database.tabs.advanced")}
+											</TabsTrigger>
 										</TabsList>
 									</div>
 

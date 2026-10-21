@@ -106,11 +106,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
-import { useTranslation } from "@/lib/i18n";
 
 export type Services = {
 	serverId?: string | null;
@@ -1062,13 +1062,16 @@ const EnvironmentPage = (
 							<div className="flex flex-row gap-4 flex-wrap justify-between items-center">
 								<div className="flex flex-row gap-4 flex-wrap">
 									<ProjectEnvironment projectId={projectId}>
-										<Button variant="outline">{t("projects.projectEnvironment")}</Button>
+										<Button variant="outline">
+											{t("projects.projectEnvironment")}
+										</Button>
 									</ProjectEnvironment>
 									{permissions?.service.create && (
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button>
-													<PlusIcon className="h-4 w-4 mr-1" />{t("projects.createService")}
+													<PlusIcon className="h-4 w-4 mr-1" />
+													{t("projects.createService")}
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent
@@ -1137,7 +1140,9 @@ const EnvironmentPage = (
 													variant="outline"
 													disabled={selectedServices.length === 0}
 													isLoading={isBulkActionLoading}
-												>{t("projects.bulkActions")}</Button>
+												>
+													{t("projects.bulkActions")}
+												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="end">
 												<DropdownMenuLabel>Actions</DropdownMenuLabel>

@@ -44,11 +44,11 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { UseKeyboardNav } from "@/hooks/use-keyboard-nav";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
-import { useTranslation } from "@/lib/i18n";
 
 type TabState = "projects" | "monitoring" | "settings" | "advanced";
 
@@ -223,19 +223,29 @@ const Redis = (
 														: "md:grid-cols-5",
 											)}
 										>
-											<TabsTrigger value="general">{t("database.tabs.general")}</TabsTrigger>
+											<TabsTrigger value="general">
+												{t("database.tabs.general")}
+											</TabsTrigger>
 											{permissions?.envVars.read && (
-												<TabsTrigger value="environment">{t("database.tabs.environment")}</TabsTrigger>
+												<TabsTrigger value="environment">
+													{t("database.tabs.environment")}
+												</TabsTrigger>
 											)}
 											{permissions?.logs.read && (
-												<TabsTrigger value="logs">{t("database.tabs.logs")}</TabsTrigger>
+												<TabsTrigger value="logs">
+													{t("database.tabs.logs")}
+												</TabsTrigger>
 											)}
 											{permissions?.monitoring.read &&
 												((data?.serverId && isCloud) || !data?.server) && (
-													<TabsTrigger value="monitoring">{t("database.tabs.monitoring")}</TabsTrigger>
+													<TabsTrigger value="monitoring">
+														{t("database.tabs.monitoring")}
+													</TabsTrigger>
 												)}
 											{permissions?.service.create && (
-												<TabsTrigger value="advanced">{t("database.tabs.advanced")}</TabsTrigger>
+												<TabsTrigger value="advanced">
+													{t("database.tabs.advanced")}
+												</TabsTrigger>
 											)}
 										</TabsList>
 									</div>
