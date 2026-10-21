@@ -995,6 +995,7 @@ export default function Page({ children }: Props) {
 		setIsLoaded(true);
 	}, []);
 
+	const { t } = useTranslation();
 	const pathname = usePathname();
 	const { data: auth } = api.user.get.useQuery();
 	const { data: permissions } = api.user.getPermissions.useQuery();
