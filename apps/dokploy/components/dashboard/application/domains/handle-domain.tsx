@@ -147,7 +147,11 @@ interface Props {
 }
 
 export const AddDomain = ({
-	// useTranslation hook id, type, domainId = "", children }: Props) => {
+	id,
+	type,
+	domainId = "",
+	children,
+}: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [cacheType, setCacheType] = useState<CacheType>("cache");
 	const [isManualInput, setIsManualInput] = useState(false);
