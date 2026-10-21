@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const addServerDomain = z
 	.object({
@@ -77,6 +78,7 @@ const addServerDomain = z
 type AddServerDomain = z.infer<typeof addServerDomain>;
 
 export const WebDomain = () => {
+	const { t } = useTranslation();
 	const { data, refetch } = api.settings.getWebServerSettings.useQuery();
 	const { mutateAsync, isPending } =
 		api.settings.assignDomainServer.useMutation();
@@ -114,7 +116,7 @@ export const WebDomain = () => {
 		})
 			.then(async () => {
 				await refetch();
-				toast.success("Domain Assigned");
+				toast.success(t("settings.serverDomain.assigned"));
 			})
 			.catch(() => {
 				toast.error("Error assigning the domain");
@@ -128,12 +130,9 @@ export const WebDomain = () => {
 					<CardHeader className="flex flex-row gap-2 flex-wrap justify-between items-center">
 						<div className="flex flex-col gap-1">
 							<CardTitle className="text-xl flex flex-row gap-2">
-								<GlobeIcon className="size-6 text-muted-foreground self-center" />
-								Server Domain
+								<GlobeIcon className="size-6 text-muted-foreground self-center" />{t("settings.serverDomain.title")}
 							</CardTitle>
-							<CardDescription>
-								Add a domain to your server application.
-							</CardDescription>
+							<CardDescription>{t("settings.serverDomain.description")}</CardDescription>
 						</div>
 					</CardHeader>
 					<CardContent className="space-y-2 py-6 border-t">
@@ -161,7 +160,7 @@ export const WebDomain = () => {
 									render={({ field }) => {
 										return (
 											<FormItem className="col-span-2 md:col-span-1">
-												<FormLabel>Domain</FormLabel>
+												<FormLabel>{t("domains.host")}</FormLabel>
 												<FormControl>
 													<Input
 														className="w-full"
@@ -181,7 +180,7 @@ export const WebDomain = () => {
 									render={({ field }) => {
 										return (
 											<FormItem className="col-span-2 md:col-span-1">
-												<FormLabel>Let's Encrypt Email</FormLabel>
+												<FormLabel>{t("settings.serverDomain.letsEncryptEmail")}</FormLabel>
 												<FormControl>
 													<Input
 														className="w-full"

@@ -17,6 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { SaveBitbucketProvider } from "./save-bitbucket-provider";
 import { SaveDragNDrop } from "./save-drag-n-drop";
 import { SaveGitlabProvider } from "./save-gitlab-provider";
@@ -36,6 +37,7 @@ interface Props {
 }
 
 export const ShowProviderForm = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const { data: githubProviders, isPending: isLoadingGithub } =
 		api.github.githubProviders.useQuery();
 	const { data: gitlabProviders, isPending: isLoadingGitlab } =
@@ -59,7 +61,7 @@ export const ShowProviderForm = ({ applicationId }: Props) => {
 	const handleDisconnect = async () => {
 		try {
 			await disconnectGitProvider({ applicationId });
-			toast.success("Repository disconnected successfully");
+			toast.success(t("provider.disconnectSuccess"));
 			await refetch();
 		} catch (error) {
 			toast.error(
@@ -76,9 +78,9 @@ export const ShowProviderForm = ({ applicationId }: Props) => {
 				<CardHeader>
 					<CardTitle className="flex items-start justify-between">
 						<div className="flex flex-col gap-2">
-							<span className="flex flex-col space-y-0.5">Provider</span>
+							<span className="flex flex-col space-y-0.5">{t("provider.title")}</span>
 							<p className="flex items-center text-sm font-normal text-muted-foreground">
-								Select the source of your code
+								{t("provider.description")}
 							</p>
 						</div>
 						<div className="hidden space-y-1 text-sm font-normal md:block">
@@ -90,7 +92,7 @@ export const ShowProviderForm = ({ applicationId }: Props) => {
 					<div className="flex min-h-[25vh] items-center justify-center">
 						<div className="flex items-center gap-2 text-muted-foreground">
 							<Loader2 className="size-4 animate-spin" />
-							<span>Loading providers...</span>
+							<span>{t("provider.loading")}</span>
 						</div>
 					</div>
 				</CardContent>

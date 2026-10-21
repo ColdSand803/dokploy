@@ -61,6 +61,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { createColumns } from "./columns";
 import { DnsHelperModal } from "./dns-helper-modal";
 import { AddDomain } from "./handle-domain";
@@ -84,6 +85,7 @@ interface Props {
 }
 
 export const ShowDomains = ({ id, type }: Props) => {
+	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canCreateDomain = permissions?.domain.create ?? false;
 	const canDeleteDomain = permissions?.domain.delete ?? false;
@@ -157,13 +159,13 @@ export const ShowDomains = ({ id, type }: Props) => {
 			const result = await toggleEnable({ domainId });
 			refetch();
 			toast.success(
-				result.enabled ? "Domain enabled" : "Domain disabled",
+				result.enabled ? t("domains.enabled") : t("domains.disabled"),
 				result.requiresRedeploy
 					? { description: COMPOSE_REDEPLOY_TOAST }
 					: undefined,
 			);
 		} catch {
-			toast.error("Error updating the domain");
+			toast.error(t("domains.updateError"));
 		}
 	};
 
@@ -172,13 +174,13 @@ export const ShowDomains = ({ id, type }: Props) => {
 			await deleteDomain({ domainId });
 			refetch();
 			toast.success(
-				"Domain deleted successfully",
+				t("domains.deleteSuccess"),
 				type === "compose"
 					? { description: COMPOSE_REDEPLOY_TOAST }
 					: undefined,
 			);
 		} catch {
-			toast.error("Error deleting domain");
+			toast.error(t("domains.deleteError"));
 		}
 	};
 
@@ -256,10 +258,8 @@ export const ShowDomains = ({ id, type }: Props) => {
 			<Card className="bg-background">
 				<CardHeader className="flex flex-row items-center flex-wrap gap-4 justify-between">
 					<div className="flex flex-col gap-1">
-						<CardTitle className="text-xl">Domains</CardTitle>
-						<CardDescription>
-							Domains are used to access to the application
-						</CardDescription>
+						<CardTitle className="text-xl">{t("domains.title")}</CardTitle>
+						<CardDescription>{t("domains.description")}</CardDescription>
 					</div>
 
 					<div className="flex flex-row gap-2 flex-wrap">
@@ -283,7 +283,7 @@ export const ShowDomains = ({ id, type }: Props) => {
 								{canCreateDomain && (
 									<AddDomain id={id} type={type}>
 										<Button>
-											<GlobeIcon className="size-4" /> Add Domain
+											<GlobeIcon className="size-4 mr-1" />{t("domains.addDomain")}
 										</Button>
 									</AddDomain>
 								)}
@@ -301,21 +301,18 @@ export const ShowDomains = ({ id, type }: Props) => {
 						<div className="flex w-full flex-row gap-4 min-h-[40vh] justify-center items-center">
 							<Loader2 className="size-5 animate-spin text-muted-foreground" />
 							<span className="text-base text-muted-foreground">
-								Loading domains...
+								{t("common.loading")}
 							</span>
 						</div>
 					) : data?.length === 0 ? (
 						<div className="flex w-full flex-col items-center justify-center gap-3 min-h-[40vh]">
 							<GlobeIcon className="size-8 text-muted-foreground" />
-							<span className="text-base text-muted-foreground">
-								To access the application it is required to set at least 1
-								domain
-							</span>
+							<span className="text-base text-muted-foreground">{t("domains.noDomains")}</span>
 							{canCreateDomain && (
 								<div className="flex flex-row gap-4 flex-wrap">
 									<AddDomain id={id} type={type}>
 										<Button>
-											<GlobeIcon className="size-4" /> Add Domain
+											<GlobeIcon className="size-4 mr-1" />{t("domains.addDomain")}
 										</Button>
 									</AddDomain>
 								</div>
@@ -325,7 +322,7 @@ export const ShowDomains = ({ id, type }: Props) => {
 						<div className="flex flex-col gap-4 w-full">
 							<div className="flex items-center gap-2 max-sm:flex-wrap">
 								<Input
-									placeholder="Filter by host..."
+									placeholder={t("domains.searchPlaceholder")}
 									value={
 										(table.getColumn("host")?.getFilterValue() as string) ?? ""
 									}
@@ -340,7 +337,7 @@ export const ShowDomains = ({ id, type }: Props) => {
 											variant="outline"
 											className="sm:ml-auto max-sm:w-full"
 										>
-											Columns <ChevronDown className="ml-2 h-4 w-4" />
+											{t("domains.columns")} <ChevronDown className="ml-2 h-4 w-4" />
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent align="end">
@@ -422,17 +419,13 @@ export const ShowDomains = ({ id, type }: Props) => {
 											size="sm"
 											onClick={() => table.previousPage()}
 											disabled={!table.getCanPreviousPage()}
-										>
-											Previous
-										</Button>
+										>{t("common.back")}</Button>
 										<Button
 											variant="outline"
 											size="sm"
 											onClick={() => table.nextPage()}
 											disabled={!table.getCanNextPage()}
-										>
-											Next
-										</Button>
+										>{t("common.next")}</Button>
 									</div>
 								</div>
 							)}

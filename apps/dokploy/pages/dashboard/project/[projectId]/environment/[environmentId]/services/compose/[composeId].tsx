@@ -58,6 +58,7 @@ import { UseKeyboardNav } from "@/hooks/use-keyboard-nav";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
+import { useTranslation } from "@/lib/i18n";
 
 type TabState =
 	| "projects"
@@ -72,6 +73,7 @@ type TabState =
 const Service = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 	const { composeId, activeTab } = props;
 	const router = useRouter();
@@ -147,7 +149,7 @@ const Service = (
 												const ip = data?.server?.ipAddress || serverIp;
 												if (ip) {
 													copy(ip);
-													toast.success("IP Address Copied!");
+													toast.success(t("application.ipCopied"));
 												}
 											}}
 											variant={
@@ -239,48 +241,40 @@ const Service = (
 								>
 									<div className="flex flex-row items-center w-full overflow-auto">
 										<TabsList className="flex gap-8 max-md:gap-4 justify-start">
-											<TabsTrigger value="general">General</TabsTrigger>
+											<TabsTrigger value="general">{t("compose.tabs.general")}</TabsTrigger>
 											{permissions?.envVars.read && (
-												<TabsTrigger value="environment">
-													Environment
-												</TabsTrigger>
+												<TabsTrigger value="environment">{t("compose.tabs.environment")}</TabsTrigger>
 											)}
 											{permissions?.domain.read && (
-												<TabsTrigger value="domains">Domains</TabsTrigger>
+												<TabsTrigger value="domains">{t("compose.tabs.domains")}</TabsTrigger>
 											)}
 											{permissions?.deployment.read && (
-												<TabsTrigger value="deployments">
-													Deployments
-												</TabsTrigger>
+												<TabsTrigger value="deployments">{t("compose.tabs.deployments")}</TabsTrigger>
 											)}
 											{permissions?.service.read && (
-												<TabsTrigger value="containers">Containers</TabsTrigger>
+												<TabsTrigger value="containers">{t("compose.tabs.containers")}</TabsTrigger>
 											)}
 											{permissions?.service.create && (
-												<TabsTrigger value="backups">Backups</TabsTrigger>
+												<TabsTrigger value="backups">{t("compose.tabs.backups")}</TabsTrigger>
 											)}
 											{permissions?.schedule.read && (
-												<TabsTrigger value="schedules">Schedules</TabsTrigger>
+												<TabsTrigger value="schedules">{t("compose.tabs.schedules")}</TabsTrigger>
 											)}
 											{permissions?.volumeBackup.read && (
-												<TabsTrigger value="volumeBackups">
-													Volume Backups
-												</TabsTrigger>
+												<TabsTrigger value="volumeBackups">{t("compose.tabs.volumeBackups")}</TabsTrigger>
 											)}
 											{permissions?.logs.read && (
-												<TabsTrigger value="logs">Logs</TabsTrigger>
+												<TabsTrigger value="logs">{t("compose.tabs.logs")}</TabsTrigger>
 											)}
 											{data?.sourceType !== "raw" && (
-												<TabsTrigger value="patches">Patches</TabsTrigger>
+												<TabsTrigger value="patches">{t("compose.tabs.patches")}</TabsTrigger>
 											)}
 											{permissions?.monitoring.read &&
 												((data?.serverId && isCloud) || !data?.server) && (
-													<TabsTrigger value="monitoring">
-														Monitoring
-													</TabsTrigger>
+													<TabsTrigger value="monitoring">{t("compose.tabs.monitoring")}</TabsTrigger>
 												)}
 											{permissions?.service.create && (
-												<TabsTrigger value="advanced">Advanced</TabsTrigger>
+												<TabsTrigger value="advanced">{t("compose.tabs.advanced")}</TabsTrigger>
 											)}
 										</TabsList>
 									</div>

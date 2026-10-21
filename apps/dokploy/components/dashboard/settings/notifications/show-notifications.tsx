@@ -21,9 +21,11 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { HandleNotifications } from "./handle-notifications";
 
 export const ShowNotifications = () => {
+	const { t } = useTranslation();
 	const { data, isPending, refetch } = api.notification.all.useQuery();
 	const { mutateAsync, isPending: isRemoving } =
 		api.notification.remove.useMutation();
@@ -35,13 +37,9 @@ export const ShowNotifications = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<Bell className="size-6 text-muted-foreground self-center" />
-							Notifications
+							<Bell className="size-6 text-muted-foreground self-center" />{t("settings.notificationsConfig.title")}
 						</CardTitle>
-						<CardDescription>
-							Add your providers to receive notifications, like Discord, Slack,
-							Telegram, Teams, Email, Resend, Lark.
-						</CardDescription>
+						<CardDescription>{t("settings.notificationsConfig.description")}</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (

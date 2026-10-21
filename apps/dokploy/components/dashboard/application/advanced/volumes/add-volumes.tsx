@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 interface Props {
 	serviceId: string;
@@ -80,6 +81,7 @@ const mySchema = z.discriminatedUnion("type", [
 type AddMount = z.infer<typeof mySchema>;
 
 export const AddVolumes = ({
+	// i18n hook
 	serviceId,
 	serviceType,
 	refetch,
@@ -87,6 +89,7 @@ export const AddVolumes = ({
 }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { mutateAsync } = api.mounts.create.useMutation();
+	const { t } = useTranslation();
 	const form = useForm<AddMount>({
 		defaultValues: {
 			type: serviceType === "compose" ? "file" : "bind",
@@ -288,7 +291,7 @@ export const AddVolumes = ({
 										name="hostPath"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Host Path</FormLabel>
+												<FormLabel>{t("shared.volumes.hostPath")}</FormLabel>
 												<FormControl>
 													<Input placeholder="Host Path" {...field} />
 												</FormControl>
@@ -387,9 +390,7 @@ PORT=3000
 							isLoading={form.formState.isSubmitting}
 							form="hook-form-volume"
 							type="submit"
-						>
-							Create
-						</Button>
+						>{t("common.create")}</Button>
 					</DialogFooter>
 				</Form>
 			</DialogContent>

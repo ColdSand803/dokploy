@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { HandleSecurity } from "./handle-security";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export const ShowSecurity = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const { data, refetch } = api.application.one.useQuery(
 		{
 			applicationId,
@@ -35,14 +37,12 @@ export const ShowSecurity = ({ applicationId }: Props) => {
 		<Card className="bg-background">
 			<CardHeader className="flex flex-row justify-between flex-wrap gap-4">
 				<div>
-					<CardTitle className="text-xl">Security</CardTitle>
-					<CardDescription>Add basic auth to your application</CardDescription>
+					<CardTitle className="text-xl">{t("shared.security.title")}</CardTitle>
+					<CardDescription>{t("shared.security.description")}</CardDescription>
 				</div>
 
 				{data && data?.security.length > 0 && (
-					<HandleSecurity applicationId={applicationId}>
-						Add Security
-					</HandleSecurity>
+					<HandleSecurity applicationId={applicationId}>{t("shared.security.addSecurity")}</HandleSecurity>
 				)}
 			</CardHeader>
 			<CardContent className="flex flex-col gap-4">
@@ -50,11 +50,9 @@ export const ShowSecurity = ({ applicationId }: Props) => {
 					<div className="flex w-full flex-col items-center justify-center gap-3 pt-10">
 						<LockKeyhole className="size-8 text-muted-foreground" />
 						<span className="text-base text-muted-foreground">
-							No security configured
+							{t("shared.security.noSecurity")}
 						</span>
-						<HandleSecurity applicationId={applicationId}>
-							Add Security
-						</HandleSecurity>
+						<HandleSecurity applicationId={applicationId}>{t("shared.security.addSecurity")}</HandleSecurity>
 					</div>
 				) : (
 					<div className="flex flex-col pt-2">

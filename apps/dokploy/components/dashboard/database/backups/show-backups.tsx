@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import type { ServiceType } from "../../application/advanced/show-resources";
 import { ShowDeploymentsModal } from "../../application/deployments/show-deployments-modal";
 import { HandleBackup } from "./handle-backup";
@@ -37,10 +38,12 @@ interface Props {
 	backupType?: "database" | "compose";
 }
 export const ShowBackups = ({
+	// i18n hook
 	id,
 	databaseType,
 	backupType = "database",
 }: Props) => {
+	const { t } = useTranslation();
 	const [activeManualBackup, setActiveManualBackup] = useState<
 		string | undefined
 	>();
@@ -97,11 +100,8 @@ export const ShowBackups = ({
 		<Card className="bg-background">
 			<CardHeader className="flex flex-row items-center flex-wrap gap-4 justify-between">
 				<div className="flex flex-col gap-1">
-					<CardTitle className="text-xl">Backups</CardTitle>
-					<CardDescription>
-						Add backups to your database to save the data to a different
-						provider.
-					</CardDescription>
+					<CardTitle className="text-xl">{t("database.backups.title")}</CardTitle>
+					<CardDescription>{t("database.backups.description")}</CardDescription>
 				</div>
 
 				{postgres && postgres?.backups?.length > 0 && (
@@ -145,7 +145,7 @@ export const ShowBackups = ({
 							<div className="flex w-full flex-col items-center justify-center gap-3 pt-10">
 								<DatabaseBackup className="size-8 text-muted-foreground" />
 								<span className="text-base text-muted-foreground">
-									No backups configured
+									{t("database.backups.noBackups")}
 								</span>
 								<div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
 									<HandleBackup

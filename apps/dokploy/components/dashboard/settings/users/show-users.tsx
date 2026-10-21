@@ -29,10 +29,12 @@ import {
 } from "@/components/ui/table";
 import { authClient } from "@/lib/auth-client";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { AddUserPermissions } from "./add-permissions";
 import { ChangeRole } from "./change-role";
 
 export const ShowUsers = () => {
+	const { t } = useTranslation();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
 	const { data, isPending, refetch } = api.user.all.useQuery();
 	const { mutateAsync, isPending: isRemoving } = api.user.remove.useMutation();
@@ -56,12 +58,9 @@ export const ShowUsers = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<Users className="size-6 text-muted-foreground self-center" />
-							Users
+							<Users className="size-6 text-muted-foreground self-center" />{t("settings.usersConfig.title")}
 						</CardTitle>
-						<CardDescription>
-							Add your users to your Dokploy account.
-						</CardDescription>
+						<CardDescription>{t("settings.usersConfig.description")}</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (
@@ -75,7 +74,7 @@ export const ShowUsers = () => {
 									<div className="flex flex-col items-center gap-3  min-h-[25vh] justify-center">
 										<Users className="size-8 self-center text-muted-foreground" />
 										<span className="text-base text-muted-foreground">
-											Invite users to your Dokploy account
+											{t("settings.usersConfig.inviteUsers")}
 										</span>
 									</div>
 								) : (

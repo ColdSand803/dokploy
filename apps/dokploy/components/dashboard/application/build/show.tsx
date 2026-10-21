@@ -28,6 +28,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 // Railpack versions from https://github.com/railwayapp/railpack/releases
 export const RAILPACK_VERSIONS = [
@@ -214,6 +215,7 @@ const resetData = (data: ApplicationData): AddTemplate => {
 };
 
 export const ShowBuildChooseForm = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const { mutateAsync, isPending } =
 		api.application.saveBuildType.useMutation();
 	const { data, refetch } = api.application.one.useQuery(
@@ -286,11 +288,11 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 					: null,
 		})
 			.then(async () => {
-				toast.success("Build type saved");
+				toast.success(t("build.saveSuccess"));
 				await refetch();
 			})
 			.catch(() => {
-				toast.error("Error saving the build type");
+				toast.error(t("build.saveError"));
 			});
 	};
 
@@ -299,9 +301,9 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 			<CardHeader>
 				<CardTitle className="flex items-start justify-between">
 					<div className="flex flex-col gap-2">
-						<span className="flex flex-col space-y-0.5">Build Type</span>
+						<span className="flex flex-col space-y-0.5">{t("build.title")}</span>
 						<p className="flex items-center text-sm font-normal text-muted-foreground">
-							Select the way of building your code
+							{t("build.description")}
 						</p>
 					</div>
 					<div className="hidden space-y-1 text-sm font-normal md:block">
@@ -337,7 +339,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 							defaultValue={form.control._defaultValues.buildType}
 							render={({ field }) => (
 								<FormItem className="space-y-3">
-									<FormLabel>Build Type</FormLabel>
+									<FormLabel>{t("build.title")}</FormLabel>
 									<FormControl>
 										<RadioGroup
 											onValueChange={field.onChange}
@@ -374,7 +376,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 								name="herokuVersion"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Heroku Version (Optional)</FormLabel>
+										<FormLabel>{t("build.herokuVersion")}</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Heroku Version (Default: 24)"
@@ -394,7 +396,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 									name="dockerfile"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Docker File</FormLabel>
+											<FormLabel>{t("build.dockerfile")}</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="Path of your docker file (default: Dockerfile)"
@@ -411,7 +413,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 									name="dockerContextPath"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Docker Context Path</FormLabel>
+											<FormLabel>{t("build.dockerContextPath")}</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="Path of your docker context (default: .)"
@@ -429,7 +431,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 									render={({ field }) => (
 										<FormItem>
 											<div className="space-y-0.5">
-												<FormLabel>Docker Build Stage</FormLabel>
+												<FormLabel>{t("build.dockerBuildStage")}</FormLabel>
 												<FormDescription>
 													Allows you to target a specific stage in a Multi-stage
 													Dockerfile. If empty, Docker defaults to build the
@@ -455,7 +457,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 								render={({ field }) => (
 									<FormItem>
 										<div className="space-y-0.5">
-											<FormLabel>Publish Directory</FormLabel>
+											<FormLabel>{t("build.publishDirectory")}</FormLabel>
 											<FormDescription>
 												Allows you to serve a single directory via NGINX after
 												the build phase. Useful if the final build assets should
@@ -607,9 +609,7 @@ export const ShowBuildChooseForm = ({ applicationId }: Props) => {
 							</>
 						)}
 						<div className="flex w-full justify-end">
-							<Button isLoading={isPending} type="submit">
-								Save
-							</Button>
+							<Button isLoading={isPending} type="submit">{t("common.save")}</Button>
 						</div>
 					</form>
 				</Form>

@@ -9,6 +9,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { ShowDokployActions } from "./servers/actions/show-dokploy-actions";
 import { ShowStorageActions } from "./servers/actions/show-storage-actions";
 import { ShowTraefikActions } from "./servers/actions/show-traefik-actions";
@@ -16,6 +17,7 @@ import { ToggleDockerCleanup } from "./servers/actions/toggle-docker-cleanup";
 import { UpdateServer } from "./web-server/update-server";
 
 export const WebServer = () => {
+	const { t } = useTranslation();
 	const { data: webServerSettings } =
 		api.settings.getWebServerSettings.useQuery();
 
@@ -28,10 +30,9 @@ export const WebServer = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<ServerIcon className="size-6 text-muted-foreground self-center" />
-							Web Server
+							<ServerIcon className="size-6 text-muted-foreground self-center" />{t("settings.serverDetails.title")}
 						</CardTitle>
-						<CardDescription>Reload or clean the web server.</CardDescription>
+						<CardDescription>{t("settings.serverDetails.description")}</CardDescription>
 					</CardHeader>
 					{/* <CardHeader>
 						<CardTitle className="text-xl">
@@ -52,19 +53,19 @@ export const WebServer = () => {
 
 						<div className="flex items-center flex-wrap justify-between gap-4">
 							<span className="text-sm text-muted-foreground flex items-center gap-1.5">
-								Server IP: {webServerSettings?.serverIp}
+								{t("settings.serverDetails.serverIp")}: {webServerSettings?.serverIp}
 								{webServerSettings?.serverIp && (
 									<CopyIcon
 										className="size-3.5 cursor-pointer hover:text-foreground transition-colors"
 										onClick={() => {
 											copy(webServerSettings.serverIp ?? "");
-											toast.success("Copied to clipboard");
+											toast.success(t("common.copied"));
 										}}
 									/>
 								)}
 							</span>
 							<span className="text-sm text-muted-foreground">
-								Version: {dokployVersion}
+								{t("settings.serverDetails.version")}: {dokployVersion}
 							</span>
 
 							<ToggleDockerCleanup />

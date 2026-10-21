@@ -34,6 +34,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { type LogLine, parseLogs } from "../docker/logs/utils";
 
 const LOCAL_SERVER = "dokploy";
@@ -52,6 +53,7 @@ interface Props {
 }
 
 export const TransferService = ({ id, type, serverId }: Props) => {
+	const { t } = useTranslation();
 	const utils = api.useUtils();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
 	const { data: servers } = api.server.withSSHKey.useQuery();
@@ -89,7 +91,7 @@ export const TransferService = ({ id, type, serverId }: Props) => {
 				setLogs((prev) => [...prev, ...parseLogs(line)]);
 				if (line.startsWith("Transfer completed")) {
 					setIsTransferring(false);
-					toast.success("Service transferred successfully");
+					toast.success(t("shared.transferService.success"));
 					utils.invalidate();
 				} else if (line.startsWith("Transfer failed")) {
 					setIsTransferring(false);
@@ -131,11 +133,8 @@ export const TransferService = ({ id, type, serverId }: Props) => {
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-lg">
 					<DialogHeader>
-						<DialogTitle>Transfer to another server</DialogTitle>
-						<DialogDescription>
-							Moves this service with its volumes, bind mounts, file mounts and
-							configuration to the selected server, then deploys it there.
-						</DialogDescription>
+						<DialogTitle>{t("shared.transferService.title")}</DialogTitle>
+						<DialogDescription>{t("shared.transferService.description")}</DialogDescription>
 					</DialogHeader>
 					{targets.length === 0 ? (
 						<AlertBlock type="info">
@@ -153,7 +152,7 @@ export const TransferService = ({ id, type, serverId }: Props) => {
 									name="targetServerId"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Target server</FormLabel>
+											<FormLabel>{t("shared.transferService.targetServer")}</FormLabel>
 											<Select
 												onValueChange={field.onChange}
 												defaultValue={field.value}
@@ -220,17 +219,13 @@ export const TransferService = ({ id, type, serverId }: Props) => {
 						</Form>
 					)}
 					<DialogFooter>
-						<Button variant="secondary" onClick={() => setIsOpen(false)}>
-							Cancel
-						</Button>
+						<Button variant="secondary" onClick={() => setIsOpen(false)}>{t("common.cancel")}</Button>
 						{targets.length > 0 && (
 							<Button
 								isLoading={isTransferring}
 								form="hook-form-transfer-service"
 								type="submit"
-							>
-								Transfer
-							</Button>
+							>{t("shared.transferService.button")}</Button>
 						)}
 					</DialogFooter>
 				</DialogContent>

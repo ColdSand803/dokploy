@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/tooltip";
 import { slugify } from "@/lib/slug";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { APP_NAME_MESSAGE, APP_NAME_REGEX } from "@/utils/schema";
 
 const AddComposeSchema = z.object({
@@ -70,6 +71,7 @@ interface Props {
 }
 
 export const AddCompose = ({ environmentId, projectName }: Props) => {
+	const { t } = useTranslation();
 	const utils = api.useUtils();
 	const [visible, setVisible] = useState(false);
 	const slug = slugify(projectName);
@@ -157,7 +159,7 @@ export const AddCompose = ({ environmentId, projectName }: Props) => {
 								name="name"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Name</FormLabel>
+										<FormLabel>{t("projects.addCompose.name")}</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Frontend"
@@ -258,7 +260,7 @@ export const AddCompose = ({ environmentId, projectName }: Props) => {
 							name="appName"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>App Name</FormLabel>
+									<FormLabel>{t("projects.addCompose.appName")}</FormLabel>
 									<FormControl>
 										<Input placeholder="my-app" {...field} />
 									</FormControl>
@@ -297,7 +299,7 @@ export const AddCompose = ({ environmentId, projectName }: Props) => {
 							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Description</FormLabel>
+									<FormLabel>{t("projects.addApplication.descriptionLabel")}</FormLabel>
 									<FormControl>
 										<Textarea
 											placeholder="Description of your service..."
@@ -313,9 +315,7 @@ export const AddCompose = ({ environmentId, projectName }: Props) => {
 					</form>
 
 					<DialogFooter>
-						<Button isLoading={isPending} form="hook-form" type="submit">
-							Create
-						</Button>
+						<Button isLoading={isPending} form="hook-form" type="submit">{t("common.create")}</Button>
 					</DialogFooter>
 				</Form>
 			</DialogContent>

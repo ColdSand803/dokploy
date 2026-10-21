@@ -13,6 +13,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { validateAndFormatYAML } from "../../application/advanced/traefik/update-traefik-config";
 
 interface Props {
@@ -26,6 +27,7 @@ const AddComposeFile = z.object({
 type AddComposeFile = z.infer<typeof AddComposeFile>;
 
 export const ComposeFileEditor = ({ composeId }: Props) => {
+	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canUpdate = permissions?.service.create ?? false;
 	const utils = api.useUtils();
@@ -80,7 +82,7 @@ export const ComposeFileEditor = ({ composeId }: Props) => {
 			sourceType: "raw",
 		})
 			.then(async () => {
-				toast.success("Compose config Updated");
+				toast.success(t("compose.editor.saveSuccess"));
 				setHasUnsavedChanges(false);
 				refetch();
 				await utils.compose.getConvertedCompose.invalidate({
@@ -88,7 +90,7 @@ export const ComposeFileEditor = ({ composeId }: Props) => {
 				});
 			})
 			.catch(() => {
-				toast.error("Error updating the Compose config");
+				toast.error(t("compose.editor.saveError"));
 			});
 	};
 
@@ -112,12 +114,12 @@ export const ComposeFileEditor = ({ composeId }: Props) => {
 			<div className="w-full flex flex-col gap-4 ">
 				<div className="flex items-center justify-between">
 					<div>
-						<h3 className="text-lg font-medium">Compose File</h3>
+						<h3 className="text-lg font-medium">{t("compose.editor.title")}</h3>
 						<p className="text-sm text-muted-foreground">
-							Configure your Docker Compose file for this service.
+							{t("compose.editor.description")}
 							{hasUnsavedChanges && (
 								<span className="text-yellow-500 ml-2">
-									(You have unsaved changes)
+									{t("compose.editor.unsavedChanges")}
 								</span>
 							)}
 						</p>

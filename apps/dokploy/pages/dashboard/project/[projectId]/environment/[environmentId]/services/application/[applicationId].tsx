@@ -60,6 +60,7 @@ import { UseKeyboardNav } from "@/hooks/use-keyboard-nav";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
+import { useTranslation } from "@/lib/i18n";
 
 type TabState =
 	| "projects"
@@ -75,6 +76,7 @@ type TabState =
 const Service = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 	const { applicationId, activeTab } = props;
 	const router = useRouter();
@@ -156,7 +158,7 @@ const Service = (
 											const ip = data?.server?.ipAddress || serverIp;
 											if (ip) {
 												copy(ip);
-												toast.success("IP Address Copied!");
+												toast.success(t("application.ipCopied"));
 											}
 										}}
 										variant={
@@ -184,11 +186,7 @@ const Service = (
 													align="start"
 													side="top"
 												>
-													<span>
-														You cannot, deploy this application because the
-														server is inactive, please upgrade your plan to add
-														more servers.
-													</span>
+													<span>{t("application.inactiveServer.tooltip")}</span>
 												</TooltipContent>
 											</Tooltip>
 										</TooltipProvider>
@@ -217,12 +215,7 @@ const Service = (
 								<div className="flex h-[55vh] border-2 rounded-xl border-dashed p-4">
 									<div className="max-w-3xl mx-auto flex flex-col items-center justify-center self-center gap-3">
 										<ServerOff className="size-10 text-muted-foreground self-center" />
-										<span className="text-center text-base text-muted-foreground">
-											This service is hosted on the server {data.server.name},
-											but this server has been disabled because your current
-											plan doesn't include enough servers. Please purchase more
-											servers to regain access to this application.
-										</span>
+										<span className="text-center text-base text-muted-foreground">{t("application.inactiveServer.desc", { name: data?.server?.name })}</span>
 										<span className="text-center text-base text-muted-foreground">
 											Go to{" "}
 											<Link
@@ -247,47 +240,37 @@ const Service = (
 								>
 									<div className="flex flex-row items-center justify-between w-full overflow-auto">
 										<TabsList className="flex gap-8 max-md:gap-4 justify-start">
-											<TabsTrigger value="general">General</TabsTrigger>
+											<TabsTrigger value="general">{t("application.tabs.general")}</TabsTrigger>
 											{permissions?.envVars.read && (
-												<TabsTrigger value="environment">
-													Environment
-												</TabsTrigger>
+												<TabsTrigger value="environment">{t("application.tabs.environment")}</TabsTrigger>
 											)}
 											{permissions?.domain.read && (
-												<TabsTrigger value="domains">Domains</TabsTrigger>
+												<TabsTrigger value="domains">{t("application.tabs.domains")}</TabsTrigger>
 											)}
 											{permissions?.deployment.read && (
-												<TabsTrigger value="deployments">
-													Deployments
-												</TabsTrigger>
+												<TabsTrigger value="deployments">{t("application.tabs.deployments")}</TabsTrigger>
 											)}
 											{permissions?.deployment.read && (
-												<TabsTrigger value="preview-deployments">
-													Preview Deployments
-												</TabsTrigger>
+												<TabsTrigger value="preview-deployments">{t("application.tabs.previewDeployments")}</TabsTrigger>
 											)}
 											{permissions?.schedule.read && (
-												<TabsTrigger value="schedules">Schedules</TabsTrigger>
+												<TabsTrigger value="schedules">{t("application.tabs.schedules")}</TabsTrigger>
 											)}
 											{permissions?.volumeBackup.read && (
-												<TabsTrigger value="volume-backups">
-													Volume Backups
-												</TabsTrigger>
+												<TabsTrigger value="volume-backups">{t("application.tabs.volumeBackups")}</TabsTrigger>
 											)}
 											{permissions?.logs.read && (
-												<TabsTrigger value="logs">Logs</TabsTrigger>
+												<TabsTrigger value="logs">{t("application.tabs.logs")}</TabsTrigger>
 											)}
 											{data?.sourceType !== "docker" && (
-												<TabsTrigger value="patches">Patches</TabsTrigger>
+												<TabsTrigger value="patches">{t("application.tabs.patches")}</TabsTrigger>
 											)}
 											{permissions?.monitoring.read &&
 												((data?.serverId && isCloud) || !data?.server) && (
-													<TabsTrigger value="monitoring">
-														Monitoring
-													</TabsTrigger>
+													<TabsTrigger value="monitoring">{t("application.tabs.monitoring")}</TabsTrigger>
 												)}
 											{permissions?.service.create && (
-												<TabsTrigger value="advanced">Advanced</TabsTrigger>
+												<TabsTrigger value="advanced">{t("application.tabs.advanced")}</TabsTrigger>
 											)}
 										</TabsList>
 									</div>

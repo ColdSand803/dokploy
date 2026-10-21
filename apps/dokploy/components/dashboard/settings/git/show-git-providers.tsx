@@ -33,6 +33,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { DEFAULT_GITHUB_URL } from "@/utils/github-utils";
 import { useUrl } from "@/utils/hooks/use-url";
 import { AddBitbucketProvider } from "./bitbucket/add-bitbucket-provider";
@@ -45,6 +46,7 @@ import { AddGitlabProvider } from "./gitlab/add-gitlab-provider";
 import { EditGitlabProvider } from "./gitlab/edit-gitlab-provider";
 
 export const ShowGitProviders = () => {
+	const { t } = useTranslation();
 	const { data, isPending, refetch } = api.gitProvider.getAll.useQuery();
 	const { mutateAsync, isPending: isRemoving } =
 		api.gitProvider.remove.useMutation();
@@ -73,12 +75,9 @@ export const ShowGitProviders = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<GitBranch className="size-6 text-muted-foreground self-center" />
-							Git Providers
+							<GitBranch className="size-6 text-muted-foreground self-center" />{t("settings.gitProvidersConfig.title")}
 						</CardTitle>
-						<CardDescription>
-							Connect your Git provider for authentication.
-						</CardDescription>
+						<CardDescription>{t("settings.gitProvidersConfig.description")}</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (
@@ -92,7 +91,7 @@ export const ShowGitProviders = () => {
 									<div className="flex flex-col items-center gap-3 min-h-[25vh] justify-center">
 										<GitBranch className="size-8 self-center text-muted-foreground" />
 										<span className="text-base text-muted-foreground text-center">
-											No Git Providers configured
+											{t("settings.gitProvidersConfig.empty")}
 										</span>
 										{permissions?.gitProviders.create && (
 											<div>

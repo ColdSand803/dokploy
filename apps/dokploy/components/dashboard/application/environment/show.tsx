@@ -17,6 +17,7 @@ import {
 import { Secrets } from "@/components/ui/secrets";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const addEnvironmentSchema = z.object({
 	env: z.string(),
@@ -32,6 +33,7 @@ interface Props {
 }
 
 export const ShowEnvironment = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canWrite = permissions?.envVars.write ?? false;
 	const { mutateAsync, isPending } =
@@ -96,12 +98,12 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 			applicationId,
 		})
 			.then(async () => {
-				toast.success("Environments Added");
+				toast.success(t("environment.saveSuccess"));
 				form.reset(formData);
 				await refetch();
 			})
 			.catch(() => {
-				toast.error("Error adding environment");
+				toast.error(t("environment.saveError"));
 			});
 	};
 
@@ -138,13 +140,13 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 				>
 					<Secrets
 						name="env"
-						title="Environment Settings"
+						title={t("environment.title")}
 						description={
 							<span>
-								You can add environment variables to your resource.
+								{t("environment.description")}
 								{hasChanges && (
 									<span className="text-yellow-500 ml-2">
-										(You have unsaved changes)
+										{t("compose.editor.unsavedChanges")}
 									</span>
 								)}
 							</span>
@@ -157,7 +159,7 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 					{data?.buildType === "dockerfile" && (
 						<Secrets
 							name="buildArgs"
-							title="Build-time Arguments"
+							title={t("environment.buildArgsTitle")}
 							description={
 								<span>
 									Arguments are available only at build-time. See
@@ -180,7 +182,7 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 					{data?.buildType === "dockerfile" && (
 						<Secrets
 							name="buildSecrets"
-							title="Build-time Secrets"
+							title={t("environment.buildSecretsTitle")}
 							description={
 								<span>
 									Secrets are specially designed for sensitive information and
@@ -207,13 +209,8 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-center justify-between p-3 border rounded-lg shadow-xs">
 									<div className="space-y-0.5">
-										<FormLabel>Create Environment File</FormLabel>
-										<FormDescription>
-											When enabled, an .env file will be created in the same
-											directory as your Dockerfile during the build process.
-											Disable this if you don't want to generate an environment
-											file.
-										</FormDescription>
+										<FormLabel>{t("environment.createEnvFile")}</FormLabel>
+										<FormDescription>{t("environment.createEnvFileDesc")}</FormDescription>
 									</div>
 									<FormControl>
 										<Switch
@@ -229,18 +226,14 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 					{canWrite && (
 						<div className="flex flex-row justify-end gap-2">
 							{hasChanges && (
-								<Button type="button" variant="outline" onClick={handleCancel}>
-									Cancel
-								</Button>
+								<Button type="button" variant="outline" onClick={handleCancel}>{t("common.cancel")}</Button>
 							)}
 							<Button
 								isLoading={isPending}
 								className="w-fit"
 								type="submit"
 								disabled={!hasChanges}
-							>
-								Save
-							</Button>
+							>{t("common.save")}</Button>
 						</div>
 					)}
 				</form>

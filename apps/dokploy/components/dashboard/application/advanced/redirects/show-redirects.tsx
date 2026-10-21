@@ -10,6 +10,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { HandleRedirect } from "./handle-redirect";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const ShowRedirects = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const { data, refetch } = api.application.one.useQuery(
 		{
 			applicationId,
@@ -33,17 +35,12 @@ export const ShowRedirects = ({ applicationId }: Props) => {
 		<Card className="bg-background">
 			<CardHeader className="flex flex-row justify-between flex-wrap gap-4">
 				<div>
-					<CardTitle className="text-xl">Redirects</CardTitle>
-					<CardDescription>
-						If you want to redirect requests to this application use the
-						following config to setup the redirects
-					</CardDescription>
+					<CardTitle className="text-xl">{t("shared.redirects.title")}</CardTitle>
+					<CardDescription>{t("shared.redirects.description")}</CardDescription>
 				</div>
 
 				{data && data?.redirects.length > 0 && (
-					<HandleRedirect applicationId={applicationId}>
-						Add Redirect
-					</HandleRedirect>
+					<HandleRedirect applicationId={applicationId}>{t("shared.redirects.addRedirect")}</HandleRedirect>
 				)}
 			</CardHeader>
 			<CardContent className="flex flex-col gap-4">
@@ -51,11 +48,9 @@ export const ShowRedirects = ({ applicationId }: Props) => {
 					<div className="flex w-full flex-col items-center justify-center gap-3 pt-10">
 						<Split className="size-8 text-muted-foreground" />
 						<span className="text-base text-muted-foreground">
-							No redirects configured
+							{t("shared.redirects.noRedirects")}
 						</span>
-						<HandleRedirect applicationId={applicationId}>
-							Add Redirect
-						</HandleRedirect>
+						<HandleRedirect applicationId={applicationId}>{t("shared.redirects.addRedirect")}</HandleRedirect>
 					</div>
 				) : (
 					<div className="flex flex-col pt-2">

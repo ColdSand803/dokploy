@@ -46,6 +46,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { COMPOSE_REDEPLOY_TOAST, ComposeRedeployAlert } from "./redeploy-hint";
 
 export type CacheType = "fetch" | "cache";
@@ -145,12 +146,14 @@ interface Props {
 	children: React.ReactNode;
 }
 
-export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
+export const AddDomain = ({
+	// useTranslation hook id, type, domainId = "", children }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [cacheType, setCacheType] = useState<CacheType>("cache");
 	const [isManualInput, setIsManualInput] = useState(false);
 
 	const utils = api.useUtils();
+	const { t } = useTranslation();
 	const { data, refetch } = api.domain.one.useQuery(
 		{
 			domainId,
@@ -285,12 +288,10 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 	}, [certificateType, form]);
 
 	const dictionary = {
-		success: domainId ? "Domain Updated" : "Domain Created",
-		error: domainId ? "Error updating the domain" : "Error creating the domain",
-		submit: domainId ? "Update" : "Create",
-		dialogDescription: domainId
-			? "In this section you can edit a domain"
-			: "In this section you can add domains",
+		success: domainId ? t("domains.updateSuccess") : t("domains.createSuccess"),
+		error: domainId ? t("domains.updateError") : t("domains.createError"),
+		submit: domainId ? t("common.save") : t("common.create"),
+		dialogDescription: t("domains.description"),
 	};
 
 	const onSubmit = async (data: Domain) => {
@@ -371,7 +372,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 												name="serviceName"
 												render={({ field }) => (
 													<FormItem className="w-full">
-														<FormLabel>Service Name</FormLabel>
+														<FormLabel>{t("domains.serviceName")}</FormLabel>
 														<div className="flex gap-2">
 															{isManualInput ? (
 																<FormControl>
@@ -544,7 +545,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 													certificate options will not have any effect.
 												</AlertBlock>
 											)}
-											<FormLabel>Host</FormLabel>
+											<FormLabel>{t("domains.host")}</FormLabel>
 											<div className="flex gap-2">
 												<FormControl>
 													<Input placeholder="api.dokploy.com" {...field} />
@@ -594,7 +595,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 									render={({ field }) => {
 										return (
 											<FormItem>
-												<FormLabel>Path</FormLabel>
+												<FormLabel>{t("domains.path")}</FormLabel>
 												<FormControl>
 													<Input placeholder={"/"} {...field} />
 												</FormControl>
@@ -610,7 +611,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 									render={({ field }) => {
 										return (
 											<FormItem>
-												<FormLabel>Internal Path</FormLabel>
+												<FormLabel>{t("domains.internalPath")}</FormLabel>
 												<FormDescription>
 													The path where your application expects to receive
 													requests internally (defaults to "/")
@@ -630,7 +631,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 									render={({ field }) => (
 										<FormItem className="flex flex-row items-center justify-between p-3 border rounded-lg shadow-xs">
 											<div className="space-y-0.5">
-												<FormLabel>Strip Path</FormLabel>
+												<FormLabel>{t("domains.stripPath")}</FormLabel>
 												<FormDescription>
 													Remove the external path from the request before
 													forwarding to the application
@@ -653,7 +654,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 									render={({ field }) => {
 										return (
 											<FormItem>
-												<FormLabel>Container Port</FormLabel>
+												<FormLabel>{t("domains.port")}</FormLabel>
 												<FormDescription>
 													The port where your application is running inside the
 													container (e.g., 3000 for Node.js, 80 for Nginx, 8080
@@ -674,7 +675,7 @@ export const AddDomain = ({ id, type, domainId = "", children }: Props) => {
 									render={({ field }) => (
 										<FormItem className="flex flex-row items-center justify-between p-3 mt-4 border rounded-lg shadow-xs">
 											<div className="space-y-0.5">
-												<FormLabel>Custom Entrypoint</FormLabel>
+												<FormLabel>{t("domains.useCustomEntrypoint")}</FormLabel>
 												<FormDescription>
 													Use custom entrypoint for domain
 													<br />

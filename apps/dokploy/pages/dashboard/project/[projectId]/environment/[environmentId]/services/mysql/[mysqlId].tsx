@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
+import { useTranslation } from "@/lib/i18n";
 
 type TabState = "projects" | "monitoring" | "settings" | "backups" | "advanced";
 
@@ -121,7 +122,7 @@ const MySql = (
 												const ip = data?.server?.ipAddress || serverIp;
 												if (ip) {
 													copy(ip);
-													toast.success("IP Address Copied!");
+													toast.success(t("application.ipCopied"));
 												}
 											}}
 											variant={
@@ -222,24 +223,20 @@ const MySql = (
 															: "md:grid-cols-6",
 												)}
 											>
-												<TabsTrigger value="general">General</TabsTrigger>
+												<TabsTrigger value="general">{t("database.tabs.general")}</TabsTrigger>
 												{permissions?.envVars.read && (
-													<TabsTrigger value="environment">
-														Environment
-													</TabsTrigger>
+													<TabsTrigger value="environment">{t("database.tabs.environment")}</TabsTrigger>
 												)}
 												{permissions?.logs.read && (
-													<TabsTrigger value="logs">Logs</TabsTrigger>
+													<TabsTrigger value="logs">{t("database.tabs.logs")}</TabsTrigger>
 												)}
 												{permissions?.monitoring.read &&
 													((data?.serverId && isCloud) || !data?.server) && (
-														<TabsTrigger value="monitoring">
-															Monitoring
-														</TabsTrigger>
+														<TabsTrigger value="monitoring">{t("database.tabs.monitoring")}</TabsTrigger>
 													)}
-												<TabsTrigger value="backups">Backups</TabsTrigger>
+												<TabsTrigger value="backups">{t("database.tabs.backups")}</TabsTrigger>
 												{permissions?.service.create && (
-													<TabsTrigger value="advanced">Advanced</TabsTrigger>
+													<TabsTrigger value="advanced">{t("database.tabs.advanced")}</TabsTrigger>
 												)}
 											</TabsList>
 										</div>

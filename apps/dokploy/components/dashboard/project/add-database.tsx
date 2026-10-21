@@ -52,6 +52,7 @@ import {
 } from "@/components/ui/tooltip";
 import { slugify } from "@/lib/slug";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { APP_NAME_MESSAGE, APP_NAME_REGEX } from "@/utils/schema";
 
 type DbType = z.infer<typeof mySchema>["type"];
@@ -215,6 +216,7 @@ interface Props {
 }
 
 export const AddDatabase = ({ environmentId, projectName }: Props) => {
+	const { t } = useTranslation();
 	const utils = api.useUtils();
 	const [visible, setVisible] = useState(false);
 	const slug = slugify(projectName);
@@ -445,7 +447,7 @@ export const AddDatabase = ({ environmentId, projectName }: Props) => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>{t("projects.addDatabase.name")}</FormLabel>
 											<FormControl>
 												<Input
 													placeholder="Name"
@@ -550,7 +552,7 @@ export const AddDatabase = ({ environmentId, projectName }: Props) => {
 									name="description"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Description</FormLabel>
+											<FormLabel>{t("projects.addApplication.descriptionLabel")}</FormLabel>
 											<FormControl>
 												<Textarea
 													className="h-24"
@@ -791,9 +793,7 @@ export const AddDatabase = ({ environmentId, projectName }: Props) => {
 							isLoading={form.formState.isSubmitting}
 							form="hook-form"
 							type="submit"
-						>
-							Create
-						</Button>
+						>{t("common.create")}</Button>
 					</DialogFooter>
 				</Form>
 			</DialogContent>

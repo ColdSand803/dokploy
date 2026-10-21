@@ -10,9 +10,11 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { HandleDestinations } from "./handle-destinations";
 
 export const ShowDestinations = () => {
+	const { t } = useTranslation();
 	const { data, isPending, refetch } = api.destination.all.useQuery();
 	const { mutateAsync, isPending: isRemoving } =
 		api.destination.remove.useMutation();
@@ -23,13 +25,9 @@ export const ShowDestinations = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<Database className="size-6 text-muted-foreground self-center" />
-							S3 Destinations
+							<Database className="size-6 text-muted-foreground self-center" />{t("settings.destinations.title")}
 						</CardTitle>
-						<CardDescription>
-							Add your providers like AWS S3, Cloudflare R2, Wasabi,
-							DigitalOcean Spaces etc.
-						</CardDescription>
+						<CardDescription>{t("settings.destinations.description")}</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-2 py-8 border-t">
 						{isPending ? (
@@ -74,7 +72,7 @@ export const ShowDestinations = () => {
 															/>
 															{permissions?.destination.delete && (
 																<DialogAction
-																	title="Delete Destination"
+																	title={t("settings.destinations.deleteTitle")}
 																	description="Are you sure you want to delete this destination?"
 																	type="destructive"
 																	onClick={async () => {

@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/tooltip";
 import { slugify } from "@/lib/slug";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { APP_NAME_MESSAGE, APP_NAME_REGEX } from "@/utils/schema";
 
 const AddTemplateSchema = z.object({
@@ -69,6 +70,7 @@ interface Props {
 }
 
 export const AddApplication = ({ environmentId, projectName }: Props) => {
+	const { t } = useTranslation();
 	const utils = api.useUtils();
 	const { data: isCloud } = api.settings.isCloud.useQuery();
 	const { data: webServerSettings } =
@@ -147,7 +149,7 @@ export const AddApplication = ({ environmentId, projectName }: Props) => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Name</FormLabel>
+									<FormLabel>{t("projects.addApplication.name")}</FormLabel>
 									<FormControl>
 										<Input
 											placeholder="Frontend"
@@ -274,7 +276,7 @@ export const AddApplication = ({ environmentId, projectName }: Props) => {
 							name="description"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Description</FormLabel>
+									<FormLabel>{t("projects.addApplication.descriptionLabel")}</FormLabel>
 									<FormControl>
 										<Textarea
 											placeholder="Description of your service..."
@@ -290,9 +292,7 @@ export const AddApplication = ({ environmentId, projectName }: Props) => {
 					</form>
 
 					<DialogFooter>
-						<Button isLoading={isPending} form="hook-form" type="submit">
-							Create
-						</Button>
+						<Button isLoading={isPending} form="hook-form" type="submit">{t("common.create")}</Button>
 					</DialogFooter>
 				</Form>
 			</DialogContent>

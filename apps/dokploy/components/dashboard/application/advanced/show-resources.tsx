@@ -40,6 +40,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const CPU_STEP = 0.25;
 const MEMORY_STEP_MB = 256;
@@ -105,6 +106,7 @@ interface Props {
 type AddResources = z.infer<typeof addResourcesSchema>;
 
 export const ShowResources = ({ id, type }: Props) => {
+	const { t } = useTranslation();
 	const queryMap = {
 		application: () =>
 			api.application.one.useQuery({ applicationId: id }, { enabled: !!id }),
@@ -186,14 +188,14 @@ export const ShowResources = ({ id, type }: Props) => {
 				await refetch();
 			})
 			.catch(() => {
-				toast.error("Error updating the resources");
+				toast.error(t("shared.resources.saveError"));
 			});
 	};
 
 	return (
 		<Card className="bg-background">
 			<CardHeader>
-				<CardTitle className="text-xl">Resources</CardTitle>
+				<CardTitle className="text-xl">{t("shared.resources.title")}</CardTitle>
 				<CardDescription>
 					If you want to decrease or increase the resources to a specific.
 					application or database
@@ -221,7 +223,7 @@ export const ShowResources = ({ id, type }: Props) => {
 												className="flex items-center gap-2"
 												onClick={(e) => e.preventDefault()}
 											>
-												<FormLabel>Memory Limit</FormLabel>
+												<FormLabel>{t("shared.resources.memoryLimit")}</FormLabel>
 												<TooltipProvider>
 													<Tooltip delayDuration={0}>
 														<TooltipTrigger type="button">
@@ -260,7 +262,7 @@ export const ShowResources = ({ id, type }: Props) => {
 											className="flex items-center gap-2"
 											onClick={(e) => e.preventDefault()}
 										>
-											<FormLabel>Memory Reservation</FormLabel>
+											<FormLabel>{t("shared.resources.memoryReservation")}</FormLabel>
 											<TooltipProvider>
 												<Tooltip delayDuration={0}>
 													<TooltipTrigger type="button">
@@ -300,7 +302,7 @@ export const ShowResources = ({ id, type }: Props) => {
 												className="flex items-center gap-2"
 												onClick={(e) => e.preventDefault()}
 											>
-												<FormLabel>CPU Limit</FormLabel>
+												<FormLabel>{t("shared.resources.cpuLimit")}</FormLabel>
 												<TooltipProvider>
 													<Tooltip delayDuration={0}>
 														<TooltipTrigger type="button">
@@ -340,7 +342,7 @@ export const ShowResources = ({ id, type }: Props) => {
 												className="flex items-center gap-2"
 												onClick={(e) => e.preventDefault()}
 											>
-												<FormLabel>CPU Reservation</FormLabel>
+												<FormLabel>{t("shared.resources.cpuReservation")}</FormLabel>
 												<TooltipProvider>
 													<Tooltip delayDuration={0}>
 														<TooltipTrigger type="button">
@@ -521,9 +523,7 @@ export const ShowResources = ({ id, type }: Props) => {
 						</div>
 
 						<div className="flex w-full justify-end">
-							<Button isLoading={isPending} type="submit">
-								Save
-							</Button>
+							<Button isLoading={isPending} type="submit">{t("common.save")}</Button>
 						</div>
 					</form>
 				</Form>

@@ -110,6 +110,7 @@ import { cn } from "@/lib/utils";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
 import { useWhitelabeling } from "@/utils/hooks/use-whitelabeling";
+import { useTranslation } from "@/lib/i18n";
 
 export type Services = {
 	serverId?: string | null;
@@ -561,7 +562,7 @@ const EnvironmentPage = (
 			}
 		}
 		if (success > 0) {
-			toast.success(`${success} services started successfully`);
+			toast.success(t("projects.bulkStartSuccess", { count: success }));
 			refetch();
 		}
 		setIsBulkActionLoading(false);
@@ -611,7 +612,7 @@ const EnvironmentPage = (
 			}
 		}
 		if (success > 0) {
-			toast.success(`${success} services stopped successfully`);
+			toast.success(t("projects.bulkStopSuccess", { count: success }));
 			refetch();
 		}
 		setSelectedServices([]);
@@ -772,7 +773,7 @@ const EnvironmentPage = (
 			}
 		}
 		if (success > 0) {
-			toast.success(`${success} services deleted successfully`);
+			toast.success(t("projects.bulkDeleteSuccess", { count: success }));
 			refetch();
 		}
 		setSelectedServices([]);
@@ -1060,14 +1061,13 @@ const EnvironmentPage = (
 							<div className="flex flex-row gap-4 flex-wrap justify-between items-center">
 								<div className="flex flex-row gap-4 flex-wrap">
 									<ProjectEnvironment projectId={projectId}>
-										<Button variant="outline">Project Environment</Button>
+										<Button variant="outline">{t("projects.projectEnvironment")}</Button>
 									</ProjectEnvironment>
 									{permissions?.service.create && (
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button>
-													<PlusIcon className="h-4 w-4" />
-													Create Service
+													<PlusIcon className="h-4 w-4 mr-1" />{t("projects.createService")}
 												</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent
@@ -1121,7 +1121,7 @@ const EnvironmentPage = (
 												onCheckedChange={handleSelectAll}
 											/>
 											<span className="text-sm">
-												Select All{" "}
+												{t("projects.selectAll")}{" "}
 												{selectedServices.length > 0 &&
 													`(${selectedServices.length}/${filteredServices.length})`}
 											</span>
@@ -1136,9 +1136,7 @@ const EnvironmentPage = (
 													variant="outline"
 													disabled={selectedServices.length === 0}
 													isLoading={isBulkActionLoading}
-												>
-													Bulk Actions
-												</Button>
+												>{t("projects.bulkActions")}</Button>
 											</DropdownMenuTrigger>
 											<DropdownMenuContent align="end">
 												<DropdownMenuLabel>Actions</DropdownMenuLabel>

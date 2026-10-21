@@ -26,6 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const updateApplicationSchema = z.object({
 	name: z.string().min(1, {
@@ -41,6 +42,7 @@ interface Props {
 }
 
 export const UpdateApplication = ({ applicationId }: Props) => {
+	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useState(false);
 	const utils = api.useUtils();
 	const { mutateAsync, error, isError, isPending } =
@@ -76,14 +78,14 @@ export const UpdateApplication = ({ applicationId }: Props) => {
 			description: formData.description || "",
 		})
 			.then(() => {
-				toast.success("Application updated successfully");
+				toast.success(t("application.update.success"));
 				utils.application.one.invalidate({
 					applicationId: applicationId,
 				});
 				setIsOpen(false);
 			})
 			.catch(() => {
-				toast.error("Error updating the Application");
+				toast.error(t("application.update.error"));
 			})
 			.finally(() => {});
 	};
@@ -101,8 +103,8 @@ export const UpdateApplication = ({ applicationId }: Props) => {
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle>Modify Application</DialogTitle>
-					<DialogDescription>Update the application data</DialogDescription>
+					<DialogTitle>{t("application.update.title")}</DialogTitle>
+					<DialogDescription>{t("application.update.description")}</DialogDescription>
 				</DialogHeader>
 				{isError && <AlertBlock type="error">{error?.message}</AlertBlock>}
 
@@ -119,7 +121,7 @@ export const UpdateApplication = ({ applicationId }: Props) => {
 									name="name"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Name</FormLabel>
+											<FormLabel>{t("application.update.name")}</FormLabel>
 											<FormControl>
 												<Input placeholder="Vandelay Industries" {...field} />
 											</FormControl>
@@ -133,7 +135,7 @@ export const UpdateApplication = ({ applicationId }: Props) => {
 									name="description"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Description</FormLabel>
+											<FormLabel>{t("application.update.descriptionLabel")}</FormLabel>
 											<FormControl>
 												<Textarea
 													placeholder="Description about your project..."
@@ -151,9 +153,7 @@ export const UpdateApplication = ({ applicationId }: Props) => {
 										isLoading={isPending}
 										form="hook-form-update-application"
 										type="submit"
-									>
-										Update
-									</Button>
+									>{t("common.save")}</Button>
 								</DialogFooter>
 							</form>
 						</Form>

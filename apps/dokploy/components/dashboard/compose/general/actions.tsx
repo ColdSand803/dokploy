@@ -12,12 +12,14 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { DockerTerminalModal } from "../../settings/web-server/docker-terminal-modal";
 
 interface Props {
 	composeId: string;
 }
 export const ComposeActions = ({ composeId }: Props) => {
+	const { t } = useTranslation();
 	const router = useRouter();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canDeploy = permissions?.deployment.create ?? false;
@@ -40,8 +42,8 @@ export const ComposeActions = ({ composeId }: Props) => {
 			<TooltipProvider delayDuration={0} disableHoverableContent={false}>
 				{canDeploy && (
 					<DialogAction
-						title="Deploy Compose"
-						description="Are you sure you want to deploy this compose?"
+						title={t("compose.actions.deployCompose")}
+						description={t("compose.actions.deployConfirm")}
 						type="default"
 						onClick={async () => {
 							await deploy({
@@ -67,8 +69,7 @@ export const ComposeActions = ({ composeId }: Props) => {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<div className="flex items-center">
-										<Rocket className="size-4 mr-1" />
-										Deploy
+										<Rocket className="size-4 mr-1" />{t("compose.actions.deploy")}
 									</div>
 								</TooltipTrigger>
 								<TooltipPrimitive.Portal>
@@ -84,8 +85,8 @@ export const ComposeActions = ({ composeId }: Props) => {
 				)}
 				{canDeploy && (
 					<DialogAction
-						title="Rebuild Compose"
-						description="Are you sure you want to rebuild this compose?"
+						title={t("compose.actions.redeployCompose")}
+						description={t("compose.actions.redeployConfirm")}
 						type="default"
 						onClick={async () => {
 							await redeploy({
@@ -108,8 +109,7 @@ export const ComposeActions = ({ composeId }: Props) => {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<div className="flex items-center">
-										<RefreshCcw className="size-4 mr-1" />
-										Rebuild
+										<RefreshCcw className="size-4 mr-1" />{t("compose.actions.redeploy")}
 									</div>
 								</TooltipTrigger>
 								<TooltipPrimitive.Portal>
@@ -127,8 +127,8 @@ export const ComposeActions = ({ composeId }: Props) => {
 					(data?.composeType === "docker-compose" &&
 					data?.composeStatus === "idle" ? (
 						<DialogAction
-							title="Start Compose"
-							description="Are you sure you want to start this compose?"
+							title={t("application.actions.startApp")}
+							description={t("application.actions.startConfirm")}
 							type="default"
 							onClick={async () => {
 								await start({
@@ -151,8 +151,7 @@ export const ComposeActions = ({ composeId }: Props) => {
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<div className="flex items-center">
-											<CheckCircle2 className="size-4 mr-1" />
-											Start
+											<CheckCircle2 className="size-4 mr-1" />{t("application.actions.start")}
 										</div>
 									</TooltipTrigger>
 									<TooltipPrimitive.Portal>
@@ -167,8 +166,8 @@ export const ComposeActions = ({ composeId }: Props) => {
 						</DialogAction>
 					) : (
 						<DialogAction
-							title="Stop Compose"
-							description="Are you sure you want to stop this compose?"
+							title={t("compose.actions.stopCompose")}
+							description={t("compose.actions.stopConfirm")}
 							onClick={async () => {
 								await stop({
 									composeId: composeId,
@@ -190,8 +189,7 @@ export const ComposeActions = ({ composeId }: Props) => {
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<div className="flex items-center">
-											<Ban className="size-4 mr-1" />
-											Stop
+											<Ban className="size-4 mr-1" />{t("compose.actions.stop")}
 										</div>
 									</TooltipTrigger>
 									<TooltipPrimitive.Portal>
@@ -214,8 +212,7 @@ export const ComposeActions = ({ composeId }: Props) => {
 					variant="outline"
 					className="flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-offset-2"
 				>
-					<Terminal className="size-4 mr-1" />
-					Open Terminal
+					<Terminal className="size-4 mr-1" />{t("application.general.webTerminal")}
 				</Button>
 			</DockerTerminalModal>
 			{canUpdateService && (

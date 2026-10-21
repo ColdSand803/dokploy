@@ -21,6 +21,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import { HandleCertificate } from "./handle-certificate";
 import {
 	extractLeafCommonName,
@@ -30,6 +31,7 @@ import {
 } from "./utils";
 
 export const ShowCertificates = () => {
+	const { t } = useTranslation();
 	const { mutateAsync, isPending: isRemoving } =
 		api.certificates.remove.useMutation();
 	const { data, isPending, refetch } = api.certificates.all.useQuery();
@@ -42,12 +44,9 @@ export const ShowCertificates = () => {
 				<div className="rounded-xl bg-background shadow-md ">
 					<CardHeader className="">
 						<CardTitle className="text-xl flex flex-row gap-2">
-							<ShieldCheck className="size-6 text-muted-foreground self-center" />
-							Certificates
+							<ShieldCheck className="size-6 text-muted-foreground self-center" />{t("settings.certificatesConfig.title")}
 						</CardTitle>
-						<CardDescription>
-							Create certificates in the Traefik directory
-						</CardDescription>
+						<CardDescription>{t("settings.certificatesConfig.description")}</CardDescription>
 
 						<AlertBlock type="warning">
 							Certificates are created in the Traefik directory. Traefik uses
@@ -68,7 +67,7 @@ export const ShowCertificates = () => {
 									<div className="flex flex-col items-center gap-3  min-h-[25vh] justify-center">
 										<ShieldCheck className="size-8 self-center text-muted-foreground" />
 										<span className="text-base text-muted-foreground text-center">
-											You don't have any certificates created
+											{t("settings.certificatesConfig.empty")}
 										</span>
 										{permissions?.certificate.create && <HandleCertificate />}
 									</div>

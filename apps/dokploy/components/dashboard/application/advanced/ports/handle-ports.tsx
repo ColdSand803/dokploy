@@ -32,6 +32,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const AddPortSchema = z.object({
 	publishedPort: z.number().int().min(1).max(65535),
@@ -49,12 +50,14 @@ interface Props {
 }
 
 export const HandlePorts = ({
+	// i18n hook
 	applicationId,
 	portId,
 	children = <PlusIcon className="h-4 w-4" />,
 }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const utils = api.useUtils();
+	const { t } = useTranslation();
 
 	const { data } = api.port.one.useQuery(
 		{
@@ -97,7 +100,7 @@ export const HandlePorts = ({
 			portId: portId || "",
 		})
 			.then(async () => {
-				toast.success(portId ? "Port Updated" : "Port Created");
+				toast.success(portId ? t("shared.ports.updateSuccess") : t("shared.ports.createSuccess"));
 				await utils.application.one.invalidate({
 					applicationId,
 				});
@@ -146,7 +149,7 @@ export const HandlePorts = ({
 								name="publishedPort"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Published Port</FormLabel>
+										<FormLabel>{t("shared.ports.publishedPort")}</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="1-65535"
@@ -201,7 +204,7 @@ export const HandlePorts = ({
 								name="targetPort"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Target Port</FormLabel>
+										<FormLabel>{t("shared.ports.targetPort")}</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="1-65535"
@@ -231,7 +234,7 @@ export const HandlePorts = ({
 								render={({ field }) => {
 									return (
 										<FormItem className="md:col-span-2">
-											<FormLabel>Protocol</FormLabel>
+											<FormLabel>{t("shared.ports.protocol")}</FormLabel>
 											<Select
 												onValueChange={field.onChange}
 												value={field.value}

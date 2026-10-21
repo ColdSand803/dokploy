@@ -11,6 +11,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 import type { ServiceType } from "../show-resources";
 import { AddVolumes } from "./add-volumes";
 import { UpdateVolume } from "./update-volume";
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const ShowVolumes = ({ id, type }: Props) => {
+	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canRead = permissions?.volume.read ?? false;
 	const canCreate = permissions?.volume.create ?? false;
@@ -52,17 +54,12 @@ export const ShowVolumes = ({ id, type }: Props) => {
 		<Card className="bg-background">
 			<CardHeader className="flex flex-row justify-between flex-wrap gap-4">
 				<div>
-					<CardTitle className="text-xl">Volumes</CardTitle>
-					<CardDescription>
-						If you want to persist data in this service use the following config
-						to setup the volumes
-					</CardDescription>
+					<CardTitle className="text-xl">{t("shared.volumes.title")}</CardTitle>
+					<CardDescription>{t("shared.volumes.description")}</CardDescription>
 				</div>
 
 				{canCreate && data && data?.mounts.length > 0 && (
-					<AddVolumes serviceId={id} refetch={refetch} serviceType={type}>
-						Add Volume
-					</AddVolumes>
+					<AddVolumes serviceId={id} refetch={refetch} serviceType={type}>{t("shared.volumes.addVolume")}</AddVolumes>
 				)}
 			</CardHeader>
 			<CardContent className="flex flex-col gap-4">
@@ -70,12 +67,10 @@ export const ShowVolumes = ({ id, type }: Props) => {
 					<div className="flex w-full flex-col items-center justify-center gap-3 pt-10">
 						<Package className="size-8 text-muted-foreground" />
 						<span className="text-base text-muted-foreground">
-							No volumes/mounts configured
+							{t("shared.volumes.noVolumes")}
 						</span>
 						{canCreate && (
-							<AddVolumes serviceId={id} refetch={refetch} serviceType={type}>
-								Add Volume
-							</AddVolumes>
+							<AddVolumes serviceId={id} refetch={refetch} serviceType={type}>{t("shared.volumes.addVolume")}</AddVolumes>
 						)}
 					</div>
 				) : (

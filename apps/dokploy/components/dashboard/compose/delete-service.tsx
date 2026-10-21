@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const deleteComposeSchema = z.object({
 	projectName: z.string().min(1, {
@@ -46,6 +47,7 @@ interface Props {
 }
 
 export const DeleteService = ({ id, type }: Props) => {
+	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canDelete = permissions?.service.delete ?? false;
 	const [isOpen, setIsOpen] = useState(false);
@@ -109,11 +111,11 @@ export const DeleteService = ({ id, type }: Props) => {
 					push(
 						`/dashboard/project/${result?.environment?.projectId}/environment/${result?.environment?.environmentId}`,
 					);
-					toast.success("Service deleted successfully");
+					toast.success(t("shared.deleteService.success"));
 					setIsOpen(false);
 				})
 				.catch(() => {
-					toast.error("Error deleting the service");
+					toast.error(t("shared.deleteService.error"));
 				});
 		} else {
 			form.setError("projectName", {
@@ -144,7 +146,7 @@ export const DeleteService = ({ id, type }: Props) => {
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
-					<DialogTitle>Are you absolutely sure?</DialogTitle>
+					<DialogTitle>{t("shared.deleteService.title")}</DialogTitle>
 					<DialogDescription>
 						This action cannot be undone. This will permanently delete the
 						service. If you are sure please enter the service name to delete
@@ -230,9 +232,7 @@ export const DeleteService = ({ id, type }: Props) => {
 						onClick={() => {
 							setIsOpen(false);
 						}}
-					>
-						Cancel
-					</Button>
+					>{t("common.cancel")}</Button>
 
 					<Button
 						isLoading={isPending}
@@ -240,9 +240,7 @@ export const DeleteService = ({ id, type }: Props) => {
 						form="hook-form-delete-compose"
 						type="submit"
 						variant="destructive"
-					>
-						Confirm
-					</Button>
+					>{t("common.confirm")}</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>

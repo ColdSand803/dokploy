@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 const DockerProviderSchema = z.object({
 	externalPort: z.preprocess((a) => {
@@ -46,6 +47,7 @@ interface Props {
 	mysqlId: string;
 }
 export const ShowExternalMysqlCredentials = ({ mysqlId }: Props) => {
+	const { t } = useTranslation();
 	const { data: ip } = api.settings.getIp.useQuery();
 	const { data, refetch } = api.mysql.one.useQuery({ mysqlId });
 	const { mutateAsync, isPending } = api.mysql.saveExternalPort.useMutation();
@@ -70,7 +72,7 @@ export const ShowExternalMysqlCredentials = ({ mysqlId }: Props) => {
 			mysqlId,
 		})
 			.then(async () => {
-				toast.success("External Port updated");
+				toast.success(t("database.connection.externalPortUpdated"));
 				await refetch();
 			})
 			.catch((error: Error) => {
@@ -100,7 +102,7 @@ export const ShowExternalMysqlCredentials = ({ mysqlId }: Props) => {
 			<div className="flex w-full flex-col gap-5 ">
 				<Card className="bg-background">
 					<CardHeader>
-						<CardTitle className="text-xl">External Credentials</CardTitle>
+						<CardTitle className="text-xl">{t("database.connection.externalCredentials")}</CardTitle>
 						<CardDescription>
 							In order to make the database reachable through the internet, you
 							must set a port and ensure that the port is not being used by
@@ -160,9 +162,7 @@ export const ShowExternalMysqlCredentials = ({ mysqlId }: Props) => {
 								)}
 
 								<div className="flex justify-end">
-									<Button type="submit" isLoading={isPending}>
-										Save
-									</Button>
+									<Button type="submit" isLoading={isPending}>{t("common.save")}</Button>
 								</div>
 							</form>
 						</Form>

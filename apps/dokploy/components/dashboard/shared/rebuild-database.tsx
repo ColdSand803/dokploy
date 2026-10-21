@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/utils/api";
+import { useTranslation } from "@/lib/i18n";
 
 interface Props {
 	id: string;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const RebuildDatabase = ({ id, type }: Props) => {
+	const { t } = useTranslation();
 	const utils = api.useUtils();
 
 	const mutationMap = {
@@ -44,10 +46,10 @@ export const RebuildDatabase = ({ id, type }: Props) => {
 				postgresId: type === "postgres" ? id : "",
 				redisId: type === "redis" ? id : "",
 			});
-			toast.success("Database rebuilt successfully");
+			toast.success(t("database.actions.rebuildSuccess"));
 			await utils.invalidate();
 		} catch (error) {
-			toast.error("Error rebuilding database", {
+			toast.error(t("database.actions.rebuildError"), {
 				description: error instanceof Error ? error.message : "Unknown error",
 			});
 		}
@@ -56,19 +58,13 @@ export const RebuildDatabase = ({ id, type }: Props) => {
 	return (
 		<Card className="bg-background border-destructive/50">
 			<CardHeader>
-				<CardTitle className="text-xl flex items-center gap-2">
-					<AlertTriangle className="h-5 w-5 text-destructive" />
-					Danger Zone
-				</CardTitle>
+				<CardTitle className="text-xl flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-destructive" />{t("database.rebuildZone.dangerZone")}</CardTitle>
 			</CardHeader>
 			<CardContent>
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
-						<h3 className="text-base font-semibold">Rebuild Database</h3>
-						<p className="text-sm text-muted-foreground">
-							This action will completely reset your database to its initial
-							state. All data, tables, and configurations will be removed.
-						</p>
+						<h3 className="text-base font-semibold">{t("database.actions.rebuild")}</h3>
+						<p className="text-sm text-muted-foreground">{t("database.rebuildZone.rebuildDesc")}</p>
 					</div>
 					<AlertDialog>
 						<AlertDialogTrigger asChild>
@@ -77,16 +73,12 @@ export const RebuildDatabase = ({ id, type }: Props) => {
 								variant="outline"
 								className="w-full border-destructive/50 hover:bg-destructive/10 hover:text-destructive text-destructive"
 							>
-								<DatabaseIcon className="mr-2 h-4 w-4" />
-								Rebuild Database
+								<DatabaseIcon className="mr-2 h-4 w-4" />{t("database.actions.rebuild")}
 							</Button>
 						</AlertDialogTrigger>
 						<AlertDialogContent>
 							<AlertDialogHeader>
-								<AlertDialogTitle className="flex items-center gap-2">
-									<AlertTriangle className="h-5 w-5 text-destructive" />
-									Are you absolutely sure?
-								</AlertDialogTitle>
+								<AlertDialogTitle className="flex items-center gap-2"><AlertTriangle className="h-5 w-5 text-destructive" />{t("database.actions.rebuildConfirm")}</AlertDialogTitle>
 								<AlertDialogDescription asChild>
 									<div className="space-y-2">
 										<p>This action will:</p>

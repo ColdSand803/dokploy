@@ -110,7 +110,7 @@ const Libsql = (
 											const ip = data?.server?.ipAddress || serverIp;
 											if (ip) {
 												copy(ip);
-												toast.success("IP Address Copied!");
+												toast.success(t("application.ipCopied"));
 											}
 										}}
 										variant={
@@ -208,14 +208,14 @@ const Libsql = (
 														: "md:grid-cols-6",
 											)}
 										>
-											<TabsTrigger value="general">General</TabsTrigger>
-											<TabsTrigger value="environment">Environment</TabsTrigger>
-											<TabsTrigger value="logs">Logs</TabsTrigger>
+											<TabsTrigger value="general">{t("database.tabs.general")}</TabsTrigger>
+											<TabsTrigger value="environment">{t("database.tabs.environment")}</TabsTrigger>
+											<TabsTrigger value="logs">{t("database.tabs.logs")}</TabsTrigger>
 											{((data?.serverId && isCloud) || !data?.server) && (
-												<TabsTrigger value="monitoring">Monitoring</TabsTrigger>
+												<TabsTrigger value="monitoring">{t("database.tabs.monitoring")}</TabsTrigger>
 											)}
-											<TabsTrigger value="backups">Backups</TabsTrigger>
-											<TabsTrigger value="advanced">Advanced</TabsTrigger>
+											<TabsTrigger value="backups">{t("database.tabs.backups")}</TabsTrigger>
+											<TabsTrigger value="advanced">{t("database.tabs.advanced")}</TabsTrigger>
 										</TabsList>
 									</div>
 
