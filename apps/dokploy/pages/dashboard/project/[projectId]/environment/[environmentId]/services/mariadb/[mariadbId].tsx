@@ -56,6 +56,7 @@ type TabState = "projects" | "monitoring" | "settings" | "backups" | "advanced";
 const Mariadb = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 
 	const { mariadbId, activeTab } = props;

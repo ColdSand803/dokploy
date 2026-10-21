@@ -56,6 +56,7 @@ type TabState = "projects" | "monitoring" | "settings" | "backups" | "advanced";
 const MySql = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 	const { mysqlId, activeTab } = props;
 	const router = useRouter();

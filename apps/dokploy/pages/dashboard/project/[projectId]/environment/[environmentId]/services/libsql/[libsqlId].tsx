@@ -45,6 +45,7 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { UseKeyboardNav } from "@/hooks/use-keyboard-nav";
+import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { appRouter } from "@/server/api/root";
 import { api } from "@/utils/api";
@@ -54,6 +55,7 @@ type TabState = "projects" | "monitoring" | "settings" | "backups" | "advanced";
 const Libsql = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 
 	const { libsqlId, activeTab } = props;

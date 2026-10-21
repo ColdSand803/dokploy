@@ -56,6 +56,7 @@ type TabState = "projects" | "monitoring" | "settings" | "backups" | "advanced";
 const Mongo = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 	const { mongoId, activeTab } = props;
 	const router = useRouter();

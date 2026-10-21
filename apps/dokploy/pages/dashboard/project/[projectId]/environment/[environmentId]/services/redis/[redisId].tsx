@@ -55,6 +55,7 @@ type TabState = "projects" | "monitoring" | "settings" | "advanced";
 const Redis = (
 	props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) => {
+	const { t } = useTranslation();
 	const [_toggleMonitoring, _setToggleMonitoring] = useState(false);
 	const { redisId, activeTab } = props;
 	const router = useRouter();
