@@ -306,6 +306,7 @@ const Mongo = (
 															<div> */}
 															<ContainerFreeMonitoring
 																appName={data?.appName || ""}
+																serviceId={data?.mongoId}
 															/>
 															{/* </div> */}
 															{/* )} */}

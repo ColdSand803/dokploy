@@ -36,6 +36,7 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 	const { t } = useTranslation();
 	const { data: permissions } = api.user.getPermissions.useQuery();
 	const canWrite = permissions?.envVars.write ?? false;
+	const utils = api.useUtils();
 	const { mutateAsync, isPending } =
 		api.application.saveEnvironment.useMutation();
 
@@ -99,6 +100,10 @@ export const ShowEnvironment = ({ applicationId }: Props) => {
 		})
 			.then(async () => {
 				toast.success(t("environment.saveSuccess"));
+				// Otherwise the reset effect re-applies the pre-save cached value
+				utils.application.one.setData({ applicationId }, (prev) =>
+					prev ? { ...prev, ...formData } : prev,
+				);
 				form.reset(formData);
 				await refetch();
 			})

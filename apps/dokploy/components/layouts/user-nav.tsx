@@ -91,14 +91,16 @@ export const UserNav = () => {
 					</DropdownMenuItem>
 					{!isCloud ? (
 						<>
-							<DropdownMenuItem
-								className="cursor-pointer"
-								onClick={() => {
-									router.push("/dashboard/monitoring");
-								}}
-							>
-								{t("nav.monitoring")}
-							</DropdownMenuItem>
+							{permissions?.monitoring.read && permissions?.docker.read && (
+								<DropdownMenuItem
+									className="cursor-pointer"
+									onClick={() => {
+										router.push("/dashboard/monitoring");
+									}}
+								>
+									{t("nav.monitoring")}
+								</DropdownMenuItem>
+							)}
 							{permissions?.traefikFiles.read && (
 								<DropdownMenuItem
 									className="cursor-pointer"

@@ -282,6 +282,7 @@ const Libsql = (
 															<div> */}
 														<ContainerFreeMonitoring
 															appName={data?.appName || ""}
+															serviceId={data?.libsqlId}
 														/>
 														{/* </div> */}
 														{/* )} */}

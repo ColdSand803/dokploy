@@ -285,6 +285,7 @@ const MySql = (
 															<>
 																<ContainerFreeMonitoring
 																	appName={data?.appName || ""}
+																	serviceId={data?.mysqlId}
 																/>
 															</>
 														)}
